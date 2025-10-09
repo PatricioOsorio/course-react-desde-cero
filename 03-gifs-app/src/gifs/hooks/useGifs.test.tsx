@@ -1,12 +1,13 @@
-import { describe, expect, test } from 'vitest';
+import { describe, expect, test, vi } from 'vitest';
 import { renderHookWithProviders } from '../../../tests/utils/hook-utils';
 import { useGifs } from './useGifs';
+import * as gifActions from '../actions/get-gifs-by-query.action';
 
 const renderUseGifs = () => {
   const api = renderHookWithProviders(() => useGifs());
 
   return {
-    get: () => api.get(),
+    get: api.get,
 
     getLoading: () => api.get().loading,
     getGifs: () => api.get().gifs,
@@ -42,5 +43,31 @@ describe('useGifs', () => {
     await previousSearch('something');
 
     expect(getGifs().length).toBeGreaterThanOrEqual(1);
+  });
+
+  test('should return a list of gifs form cache', async () => {
+    const { getGifs, previousSearch } = renderUseGifs();
+
+    await previousSearch('something');
+
+    expect(getGifs().length).toBeGreaterThanOrEqual(1);
+
+    vi.spyOn(gifActions, 'getGifsByQuery').mockRejectedValue(new Error('The data was requested again'));
+
+    await previousSearch('something');
+
+    expect(getGifs().length).toBeGreaterThanOrEqual(1);
+  });
+
+  test('should return no more than 8 previous terms', async () => {
+    const { getPreviousTerms, search } = renderUseGifs();
+
+    vi.spyOn(gifActions, 'getGifsByQuery').mockResolvedValue([]);
+
+    for (let index = 0; index < 8; index++) {
+      await search(`something ${index + 1}`);
+    }
+
+    expect(getPreviousTerms().length).toBe(8);
   });
 });
