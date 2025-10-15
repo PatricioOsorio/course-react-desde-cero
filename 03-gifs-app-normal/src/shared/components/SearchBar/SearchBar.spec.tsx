@@ -43,4 +43,32 @@ describe('SearchBar', () => {
       { timeout: 1100 }
     );
   });
+
+  test('should call only once with the last value (debounce)', async () => {
+    const { user, getInput } = renderSearchBar({ onQuery: onQueryMock });
+
+    await user.type(getInput(), 'd');
+    await user.type(getInput(), 'o');
+    await user.type(getInput(), 'g');
+    await user.type(getInput(), 's');
+
+    await waitFor(
+      () => {
+        expect(onQueryMock).toHaveBeenCalledWith('dogs');
+        expect(onQueryMock).toHaveBeenCalledTimes(1);
+      },
+      { timeout: 1100 }
+    );
+  });
+
+  test('should call onQuery when button clicked with the input value', async () => {
+    const { user, getInput, getButton } = renderSearchBar({ onQuery: onQueryMock });
+
+    await user.type(getInput(), 'test');
+
+    await user.click(getButton());
+
+    expect(onQueryMock).toHaveBeenCalledWith('test');
+    expect(onQueryMock).toHaveBeenCalledTimes(1);
+  });
 });
