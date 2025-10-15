@@ -2,9 +2,9 @@ import './App.css';
 
 function App() {
   return (
-    <>
-      <h1>App</h1>
-    </>
+    <article className="bg-dark">
+      <h1 className="text-2xl">App</h1>
+    </article>
   );
 }
 
