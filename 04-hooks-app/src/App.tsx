@@ -1,4 +1,4 @@
-import { PokemonPage } from './03-examples/PokemonPage';
+import { FocusScreen } from './04-use-ref/FocusScreen';
 import './App.css';
 
 function App() {
@@ -7,7 +7,8 @@ function App() {
       {/* <TrafficLight /> */}
       {/* <TrafficLightWithEffect /> */}
       {/* <TrafficLightWithHook /> */}
-      <PokemonPage />
+      {/* <PokemonPage /> */}
+      <FocusScreen />
     </article>
   );
 }
