@@ -7,42 +7,66 @@ import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-interface Todo {
+interface ITodo {
   id: number;
   text: string;
   completed: boolean;
 }
 
 export const TasksApp = () => {
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const [todos, setTodos] = useState<ITodo[]>([]);
   const [inputValue, setInputValue] = useState('');
 
   const addTodo = () => {
-    console.log('Agregar tarea', inputValue);
+    const value = inputValue.trim();
+
+    if (value === '') return;
+
+    const newTodo: ITodo = {
+      id: Date.now(),
+      text: value,
+      completed: false,
+    };
+
+    setTodos((prevTodos) => [newTodo, ...prevTodos]);
+    setInputValue('');
   };
 
   const toggleTodo = (id: number) => {
-    console.log('Cambiar de true a false', id);
+    if (!todos || todos.length === 0) return;
+    if (!id) return;
+
+    const updatedTodos = todos.map((todo) => {
+      if (todo.id === id) return { ...todo, completed: !todo.completed };
+      return todo;
+    });
+
+    setTodos(updatedTodos);
   };
 
   const deleteTodo = (id: number) => {
-    console.log('Eliminar tarea', id);
+    if (!todos || todos.length === 0) return;
+    if (!id) return;
+
+    setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    console.log('Presiono enter');
+    if (e.key === 'Enter') {
+      addTodo();
+    }
   };
 
   const completedCount = todos.filter((todo) => todo.completed).length;
   const totalCount = todos.length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4 rounded-lg">
-      <div className="mx-auto max-w-2xl">
-        <div className="mb-8 text-center">
+    <article className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-4 rounded-lg">
+      <section className="mx-auto max-w-2xl">
+        <section className="mb-8 text-center">
           <h1 className="text-4xl font-bold text-slate-800 mb-2">Lista de Tareas</h1>
           <p className="text-slate-600">Mantén tus tareas organizadas y consigue hacerlas</p>
-        </div>
+        </section>
 
         <Card className="mb-6 shadow-lg border-0 bg-white/80 backdrop-blur-sm">
           <CardContent className="p-6">
@@ -52,7 +76,7 @@ export const TasksApp = () => {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyDown={handleKeyPress}
-                className="flex-1 border-slate-200 focus:border-slate-400 focus:ring-slate-400"
+                className="flex-1 border-slate-200 focus:border-slate-400 focus:ring-slate-400 text-black"
               />
               <Button onClick={addTodo} className="bg-slate-800 hover:bg-slate-700 text-white px-4">
                 <Plus className="w-4 h-4" />
@@ -103,7 +127,7 @@ export const TasksApp = () => {
                     key={todo.id}
                     className={`flex items-center gap-3 p-3 rounded-lg border transition-all duration-200 ${
                       todo.completed
-                        ? 'bg-slate-50 border-slate-200'
+                        ? 'bg-slate-50 border-slate-00'
                         : 'bg-white border-slate-200 hover:border-slate-300 hover:shadow-sm'
                     }`}
                   >
@@ -114,7 +138,7 @@ export const TasksApp = () => {
                     />
                     <span
                       className={`flex-1 transition-all duration-200 ${
-                        todo.completed ? 'text-slate-500 line-through' : 'text-slate-800'
+                        todo.completed ? 'text-slate-00 line-through' : 'text-slate-800'
                       }`}
                     >
                       {todo.text}
@@ -133,7 +157,7 @@ export const TasksApp = () => {
             )}
           </CardContent>
         </Card>
-      </div>
-    </div>
+      </section>
+    </article>
   );
 };
