@@ -1,4 +1,4 @@
-import { FocusScreen } from './04-use-ref/FocusScreen';
+import { TasksApp } from './05-use-reducer/TaskApp';
 import './App.css';
 
 function App() {
@@ -8,7 +8,8 @@ function App() {
       {/* <TrafficLightWithEffect /> */}
       {/* <TrafficLightWithHook /> */}
       {/* <PokemonPage /> */}
-      <FocusScreen />
+      {/* <FocusScreen /> */}
+      <TasksApp />
     </article>
   );
 }
