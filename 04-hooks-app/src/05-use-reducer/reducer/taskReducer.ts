@@ -12,9 +12,18 @@ export type TTaskAction =
   | { type: 'TOGGLE_TODO'; payload: number }
   | { type: 'DELETE_TODO'; payload: number };
 
+const getComputedCounts = (todos: ITodo[]) => {
+  const length = todos.length;
+  const completes = todos.reduce((acc, t) => (t.completed ? acc + 1 : acc), 0);
+  const pending = length - completes;
+
+  return { length, completes, pending };
+};
+
 export const taskReducer = (state: ITaskState, action: TTaskAction): ITaskState => {
   switch (action.type) {
     case 'ADD_TODO': {
+      const todos = state.todos;
       const value = action.payload;
 
       const newTodo: ITodo = {
@@ -23,9 +32,12 @@ export const taskReducer = (state: ITaskState, action: TTaskAction): ITaskState 
         completed: false,
       };
 
+      const updatedTodos = [...todos, newTodo];
+
       return {
         ...state,
-        todos: [...state.todos, newTodo],
+        todos: updatedTodos,
+        ...getComputedCounts(updatedTodos),
       };
     }
     case 'TOGGLE_TODO': {
@@ -40,6 +52,7 @@ export const taskReducer = (state: ITaskState, action: TTaskAction): ITaskState 
       return {
         ...state,
         todos: updatedTodos,
+        ...getComputedCounts(updatedTodos),
       };
     }
     case 'DELETE_TODO': {
@@ -51,11 +64,10 @@ export const taskReducer = (state: ITaskState, action: TTaskAction): ITaskState 
       return {
         ...state,
         todos: updatedTodos,
+        ...getComputedCounts(updatedTodos),
       };
     }
     default:
       return state;
   }
-
-  return state;
 };
