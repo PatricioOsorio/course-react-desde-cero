@@ -48,7 +48,9 @@ export const TasksApp = () => {
     if (!todos || todos.length === 0) return;
     if (!id) return;
 
-    setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
+    const updatedTodos = todos.filter((todo) => todo.id !== id);
+
+    setTodos(updatedTodos);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
