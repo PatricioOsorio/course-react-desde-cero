@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { getTasksInitialState, taskReducer } from './reducer/taskReducer';
 
 export const ID_TASK_LOCAL_STORAGE = 'task-state';
+
 export const TasksApp = () => {
   const [state, dispatch] = useReducer(taskReducer, getTasksInitialState());
   const [inputValue, setInputValue] = useState('');

@@ -1,5 +1,7 @@
+import * as z from 'zod';
 import { ID_TASK_LOCAL_STORAGE } from '../TaskApp';
 
+// ! Interfaces
 export interface ITodo {
   id: number;
   text: string;
@@ -18,6 +20,20 @@ export type TTaskAction =
   | { type: 'TOGGLE_TODO'; payload: number }
   | { type: 'DELETE_TODO'; payload: number };
 
+// ! Schemas
+const TodoScheme = z.object({
+  id: z.number(),
+  text: z.string(),
+  completed: z.boolean(),
+});
+
+const TaskStateScheme = z.object({
+  todos: z.array(TodoScheme),
+  length: z.number(),
+  completes: z.number(),
+  pending: z.number(),
+});
+
 const getComputedCounts = (todos: ITodo[]) => {
   const length = todos.length;
   const completes = todos.reduce((acc, t) => (t.completed ? acc + 1 : acc), 0);
@@ -27,9 +43,15 @@ const getComputedCounts = (todos: ITodo[]) => {
 };
 
 export const getTasksInitialState = (): ITaskState => {
-  const localStorageState = localStorage.getItem(ID_TASK_LOCAL_STORAGE);
+  const localStorageState = localStorage.getItem(ID_TASK_LOCAL_STORAGE) ?? '';
 
-  if (!localStorageState)
+  const result = TaskStateScheme.safeParse(JSON.parse(localStorageState));
+
+  if (result.error) {
+    console.log(result.error);
+  }
+
+  if (!localStorageState || result.error)
     return {
       todos: [],
       completes: 0,
@@ -37,7 +59,7 @@ export const getTasksInitialState = (): ITaskState => {
       length: 0,
     };
 
-  return JSON.parse(localStorageState);
+  return result.data;
 };
 
 export const taskReducer = (state: ITaskState, action: TTaskAction): ITaskState => {
