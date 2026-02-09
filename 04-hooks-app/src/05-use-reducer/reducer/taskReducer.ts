@@ -1,3 +1,5 @@
+import { ID_TASK_LOCAL_STORAGE } from '../TaskApp';
+
 export interface ITodo {
   id: number;
   text: string;
@@ -25,12 +27,17 @@ const getComputedCounts = (todos: ITodo[]) => {
 };
 
 export const getTasksInitialState = (): ITaskState => {
-  return {
-    todos: [],
-    completes: 0,
-    pending: 0,
-    length: 0,
-  };
+  const localStorageState = localStorage.getItem(ID_TASK_LOCAL_STORAGE);
+
+  if (!localStorageState)
+    return {
+      todos: [],
+      completes: 0,
+      pending: 0,
+      length: 0,
+    };
+
+  return JSON.parse(localStorageState);
 };
 
 export const taskReducer = (state: ITaskState, action: TTaskAction): ITaskState => {
