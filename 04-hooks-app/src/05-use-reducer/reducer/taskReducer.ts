@@ -1,4 +1,8 @@
-import type { ITodo } from '../TaskApp';
+export interface ITodo {
+  id: number;
+  text: string;
+  completed: boolean;
+}
 
 export interface ITaskState {
   todos: ITodo[];
@@ -18,6 +22,15 @@ const getComputedCounts = (todos: ITodo[]) => {
   const pending = length - completes;
 
   return { length, completes, pending };
+};
+
+export const getTasksInitialState = (): ITaskState => {
+  return {
+    todos: [],
+    completes: 0,
+    pending: 0,
+    length: 0,
+  };
 };
 
 export const taskReducer = (state: ITaskState, action: TTaskAction): ITaskState => {
