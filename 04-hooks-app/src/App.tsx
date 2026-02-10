@@ -1,4 +1,4 @@
-import { TasksApp } from './05-use-reducer/TaskApp';
+import { ScrambleWords } from './05-use-reducer/ScrembleWords';
 import './App.css';
 
 function App() {
@@ -9,7 +9,8 @@ function App() {
       {/* <TrafficLightWithHook /> */}
       {/* <PokemonPage /> */}
       {/* <FocusScreen /> */}
-      <TasksApp />
+      {/* <TasksApp /> */}
+      <ScrambleWords />
     </article>
   );
 }
