@@ -16,8 +16,8 @@ export interface IScrambleWordState {
 export type TScrambleWordAction =
   | { type: 'SET_GUESS'; payload: string }
   | { type: 'CHECK_ANSWER' }
-  | { type: 'I_DONT_KNOW_3' }
-  | { type: 'I_DONT_KNOW_4' };
+  | { type: 'SKIP_WORD' }
+  | { type: 'RESET_GAME'; payload: IScrambleWordState };
 
 type TWords = string[];
 const GAME_WORDS: TWords = [
@@ -108,6 +108,26 @@ export const scrambleWordReducer = (
         currentWord: nextWord,
         scrambledWord: scrambleWord(nextWord),
       };
+    }
+
+    case 'SKIP_WORD': {
+      if (state.skipCounter >= state.maxSkips) return state;
+
+      const updatedWords = state.words.slice(1);
+      const nextWord = updatedWords[0];
+
+      return {
+        ...state,
+        skipCounter: state.skipCounter + 1,
+        words: updatedWords,
+        currentWord: nextWord,
+        scrambledWord: scrambleWord(nextWord),
+        guess: '',
+      };
+    }
+
+    case 'RESET_GAME': {
+      return action.payload;
     }
 
     default:

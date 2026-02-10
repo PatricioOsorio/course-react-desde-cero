@@ -2,7 +2,7 @@
 // Es necesario componentes de Shadcn/ui
 // https://ui.shadcn.com/docs/installation/vite
 
-import React, { useReducer, useState } from 'react';
+import React, { useReducer } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
@@ -27,35 +27,6 @@ export const ScrambleWords = () => {
     totalWords,
   } = state;
 
-  // const [words, setWords] = useState<TWords>(shuffleArray(GAME_WORDS));
-
-  // const [currentWord, setCurrentWord] = useState(words[0]);
-  // const [scrambledWord, setScrambledWord] = useState(scrambleWord(currentWord));
-  // const [guess, setGuess] = useState('');
-  // const [points, setPoints] = useState(0);
-  // const [errorCounter, setErrorCounter] = useState(0);
-  // const [maxAllowErrors] = useState(3);
-
-  // const [skipCounter, setSkipCounter] = useState(0);
-  // const [maxSkips] = useState(3);
-
-  // const [isGameOver, setIsGameOver] = useState(false);
-
-  const updateWords = (source?: TWords) => {
-    // const data = source ?? words;
-    // const newWords = data.filter((word) => word !== currentWord);
-    // if (newWords.length === 0) {
-    //   setWords([]);
-    //   return;
-    // }
-    // const shuffled = shuffleArray([...newWords]);
-    // const nextWord = shuffled[0];
-    // setWords(shuffled);
-    // setCurrentWord(nextWord);
-    // setScrambledWord(scrambleWord(nextWord));
-    // setGuess('');
-  };
-
   const handleGuessSubmit = (e: React.FormEvent) => {
     // Previene el refresh de la página
     e.preventDefault();
@@ -63,47 +34,18 @@ export const ScrambleWords = () => {
     dispatch({
       type: 'CHECK_ANSWER',
     });
-
-    // Implementar lógica de juego
-    // const isCorrect = guess === currentWord;
-
-    // console.log('Intento de adivinanza:', guess, currentWord);
-
-    // if (!isCorrect) {
-    //   setErrorCounter((prev) => {
-    //     const next = prev + 1;
-    //     if (next >= maxAllowErrors) setIsGameOver(true);
-    //     return next;
-    //   });
-    //   return;
-    // }
-
-    // setPoints((prev) => prev + 1);
-    // confetti({
-    //   particleCount: 100,
-    //   spread: 120,
-    //   origin: { y: 0.6 },
-    // });
-    // updateWords();
   };
 
   const handleSkip = () => {
     console.log('Palabra saltada');
-    // if (skipCounter >= maxSkips) return;
 
-    // setSkipCounter((prev) => prev + 1);
-
-    // updateWords();
+    dispatch({ type: 'SKIP_WORD' });
   };
 
   const handlePlayAgain = () => {
     console.log('Jugar de nuevo');
 
-    // setPoints(0);
-    // setErrorCounter(0);
-    // setSkipCounter(0);
-    // setIsGameOver(false);
-    // updateWords(GAME_WORDS);
+    dispatch({ type: 'RESET_GAME', payload: getInitialState() });
   };
 
   //! Si ya no hay palabras para jugar, se muestra el mensaje de fin de juego
