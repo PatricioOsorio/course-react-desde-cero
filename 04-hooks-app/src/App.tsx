@@ -1,4 +1,4 @@
-import { MemoHook } from './06-memos/MemoHook';
+import { MemoCounter } from './06-memos/MemoCounter';
 import './App.css';
 
 function App() {
@@ -11,7 +11,8 @@ function App() {
       {/* <FocusScreen /> */}
       {/* <TasksApp /> */}
       {/* <ScrambleWords /> */}
-      <MemoHook />
+      {/* <MemoHook /> */}
+      <MemoCounter />
     </article>
   );
 }
