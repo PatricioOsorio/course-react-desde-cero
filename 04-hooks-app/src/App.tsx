@@ -1,4 +1,4 @@
-import { ScrambleWords } from './05-use-reducer/ScrembleWords';
+import { MemoHook } from './06-memos/MemoHook';
 import './App.css';
 
 function App() {
@@ -10,7 +10,8 @@ function App() {
       {/* <PokemonPage /> */}
       {/* <FocusScreen /> */}
       {/* <TasksApp /> */}
-      <ScrambleWords />
+      {/* <ScrambleWords /> */}
+      <MemoHook />
     </article>
   );
 }

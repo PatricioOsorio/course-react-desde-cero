@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+/* =========================
+   Base: Liquid Glass Button
+   ========================= */
+@layer base {
+  button {
+    /* Layout + feel */
+    @apply relative inline-flex items-center justify-center gap-2;
+    @apply px-5 py-2.5 rounded-2xl font-semibold;
+    @apply select-none whitespace-nowrap;
+    @apply transition-all duration-300 ease-out;
+    @apply active:scale-[0.98];
+    @apply disabled:opacity-50 disabled:cursor-not-allowed;
+
+    /* Liquid glass look */
+    @apply text-white;
+    @apply bg-white/10;
+    @apply backdrop-blur-xl;
+    @apply border border-white/15;
+    @apply shadow-[0_10px_30px_rgba(0,0,0,0.25)];
+    @apply hover:shadow-[0_16px_40px_rgba(0,0,0,0.32)];
+  }
+
+  /* Focus UX accesible y “premium” */
+  button:focus-visible {
+    @apply outline-none ring-2 ring-white/50 ring-offset-2 ring-offset-black/30;
+  }
+}
+
+/* =========================
+   Liquid overlays (shine + depth)
+   ========================= */
+@layer components {
+  /* Reflejo superior (liquid highlight) */
+  button::before {
+    content: "";
+    @apply pointer-events-none absolute inset-0 rounded-2xl;
+    @apply bg-gradient-to-b from-white/35 via-white/10 to-transparent;
+    @apply opacity-60;
+  }
+
+  /* “Sheen” lateral animado al hover (apple-ish) */
+  button::after {
+    content: "";
+    @apply pointer-events-none absolute -inset-x-10 inset-y-0 rounded-2xl;
+    @apply bg-gradient-to-r from-transparent via-white/30 to-transparent;
+    @apply opacity-0 blur-md;
+    transform: translateX(-30%);
+    transition: opacity 300ms ease, transform 600ms ease;
+  }
+
+  button:hover::after {
+    @apply opacity-70;
+    transform: translateX(30%);
+  }
+
+  /* Micro-UX: iconos alineados si usas lucide */
+  button svg {
+    @apply size-4;
+  }
+
+  /* =========================
+     Severities (color “liquid”)
+     Usa estas clases: btn-primary, btn-success, etc.
+     ========================= */
+
+  .btn-primary {
+    @apply bg-gradient-to-r from-indigo-500/80 to-purple-600/80;
+    @apply border-white/20;
+  }
+
+  .btn-success {
+    @apply bg-gradient-to-r from-emerald-500/80 to-teal-600/80;
+    @apply border-white/20;
+  }
+
+  .btn-danger {
+    @apply bg-gradient-to-r from-rose-500/80 to-red-600/80;
+    @apply border-white/20;
+  }
+
+  .btn-warning {
+    @apply bg-gradient-to-r from-amber-400/85 to-orange-500/85;
+    @apply text-zinc-950;
+    @apply border-white/25;
+  }
+
+  .btn-secondary {
+    @apply bg-gradient-to-r from-zinc-500/75 to-zinc-700/75;
+    @apply border-white/15;
+  }
+
+  /* Hover “liquid”: un poquito más brillante */
+  .btn-primary:hover,
+  .btn-success:hover,
+  .btn-danger:hover,
+  .btn-warning:hover,
+  .btn-secondary:hover {
+    @apply brightness-110;
+  }
+
+  /* Optional: versión “ghost glass” */
+  .btn-ghost {
+    @apply bg-white/5;
+    @apply border border-white/20;
+    @apply text-white;
+  }
+}
