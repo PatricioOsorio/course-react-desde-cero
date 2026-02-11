@@ -1,7 +1,6 @@
-import React, { useOptimistic, useTransition } from 'react';
-import { v4 as uuidv4 } from 'uuid';
-
+import { useOptimistic, useTransition } from 'react';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 interface IComment {
   id: number;
@@ -48,13 +47,25 @@ export const InstagramApp = () => {
 
       console.log('write on DB');
 
-      setComments((p) => [
-        ...p,
-        {
-          id: generateId(),
-          text: messageText,
+      // setComments((p) => [
+      //   ...p,
+      //   {
+      //     id: generateId(),
+      //     text: messageText,
+      //   },
+      // ]);
+
+      // revert process
+      setComments((previous) => previous);
+      toast.error('Error al agregar el comentario', {
+        description: 'Intente nuevamente',
+        duration: 4000,
+        position: 'top-right',
+        action: {
+          label: 'cerrar',
+          onClick: () => toast.dismiss(),
         },
-      ]);
+      });
     });
   };
 
