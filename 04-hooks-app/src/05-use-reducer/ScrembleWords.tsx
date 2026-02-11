@@ -2,7 +2,7 @@
 // Es necesario componentes de Shadcn/ui
 // https://ui.shadcn.com/docs/installation/vite
 
-import React, { useReducer } from 'react';
+import React, { useEffect, useLayoutEffect, useReducer } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
@@ -26,6 +26,14 @@ export const ScrambleWords = () => {
     words,
     totalWords,
   } = state;
+
+  useEffect(() => {
+    if (points === 0) return;
+
+    confetti({
+      particleCount: 150,
+    });
+  }, [points]);
 
   const handleGuessSubmit = (e: React.FormEvent) => {
     // Previene el refresh de la página
@@ -118,7 +126,6 @@ export const ScrambleWords = () => {
                     id="guess"
                     type="text"
                     value={guess}
-                    // onChange={(e) => setGuess(e.target.value.toUpperCase().trim())}
                     onChange={(e) =>
                       dispatch({
                         type: 'SET_GUESS',
