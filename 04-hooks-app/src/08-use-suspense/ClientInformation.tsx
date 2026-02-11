@@ -1,20 +1,21 @@
-import { useEffect } from 'react';
-import { getUserAction } from './get-user.action';
+import { type IUser } from './get-user.action';
+import { use, type Usable } from 'react';
 
-export interface IClientInformationProps {
-  id: number;
+interface IClientInformationProps {
+  getUser: Usable<IUser>;
 }
-export const ClientInformation = ({ id }: IClientInformationProps) => {
-  useEffect(() => {
-    getUserAction(id).then(console.log);
-  }, [id]);
+
+export const ClientInformation = ({ getUser }: IClientInformationProps) => {
+  const user = use(getUser);
 
   return (
     <article className="flex flex-col gap-4 items-center">
-      <h2>Name - #123</h2>
+      <h2>
+        {user.name} - #{user.id}
+      </h2>
 
-      <p>Otawwam Canada</p>
-      <p>Rol de usuario</p>
+      <p>{user.location}</p>
+      <p>{user.role}</p>
     </article>
   );
 };
