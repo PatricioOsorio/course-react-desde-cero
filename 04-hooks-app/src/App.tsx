@@ -1,4 +1,4 @@
-import { MemoCounter } from './06-memos/MemoCounter';
+import { InstagramApp } from './07-useOptimistic/InstragramApp';
 import './App.css';
 
 function App() {
@@ -12,7 +12,8 @@ function App() {
       {/* <TasksApp /> */}
       {/* <ScrambleWords /> */}
       {/* <MemoHook /> */}
-      <MemoCounter />
+      {/* <MemoCounter /> */}
+      <InstagramApp />
     </article>
   );
 }
