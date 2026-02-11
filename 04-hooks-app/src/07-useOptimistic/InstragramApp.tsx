@@ -1,4 +1,5 @@
-import React, { useOptimistic } from 'react';
+import React, { useOptimistic, useTransition } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 import { useState } from 'react';
 
@@ -8,7 +9,16 @@ interface IComment {
   optimistic?: boolean;
 }
 
+let currentId = Math.random();
+
+export function generateId() {
+  currentId += 1;
+  return currentId;
+}
+
 export const InstagramApp = () => {
+  const [isPending, startTransition] = useTransition();
+
   const [comments, setComments] = useState<IComment[]>([
     { id: 1, text: '¡Gran foto!' },
     { id: 2, text: 'Me encanta 🧡' },
@@ -20,7 +30,7 @@ export const InstagramApp = () => {
       return [
         ...currentComments,
         {
-          id: new Date().getTime(),
+          id: generateId(),
           text: newComment,
           optimistic: true,
         },
@@ -33,18 +43,19 @@ export const InstagramApp = () => {
 
     addOptimisticComment(messageText);
 
-    // simulates
-    await new Promise((r) => setTimeout(r, 1000));
+    startTransition(async () => {
+      await new Promise((r) => setTimeout(r, 1000));
 
-    console.log('write on DB');
+      console.log('write on DB');
 
-    setComments((p) => [
-      ...p,
-      {
-        id: new Date().getTime(),
-        text: messageText,
-      },
-    ]);
+      setComments((p) => [
+        ...p,
+        {
+          id: generateId(),
+          text: messageText,
+        },
+      ]);
+    });
   };
 
   return (
@@ -86,7 +97,7 @@ export const InstagramApp = () => {
           required
           className="w-full p-2 rounded-md mb-2 border-2 border-gray-500 "
         />
-        <button type="submit" disabled={false}>
+        <button type="submit" disabled={isPending}>
           Enviar
         </button>
       </form>
