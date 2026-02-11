@@ -1,4 +1,4 @@
-import { InstagramApp } from './07-useOptimistic/InstragramApp';
+import { ClientInformation } from './08-use-suspense/ClientInformation';
 import './App.css';
 import { Toaster } from 'sonner';
 
@@ -15,7 +15,8 @@ function App() {
       {/* <ScrambleWords /> */}
       {/* <MemoHook /> */}
       {/* <MemoCounter /> */}
-      <InstagramApp />
+      {/* <InstagramApp /> */}
+      <ClientInformation id={1} />
     </article>
   );
 }
