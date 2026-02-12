@@ -1,5 +1,5 @@
 import { createContext, useMemo, useState, type PropsWithChildren } from 'react';
-import type { IUser } from '../data/use-mock.data';
+import { users, type IUser } from '../data/use-mock.data';
 
 export type TAuthStatus = 'checking' | 'authenticated' | 'not-authenticated';
 
@@ -21,12 +21,23 @@ export const UserContextProvider = ({ children }: IUSerContextProviders) => {
   const [user, setUser] = useState<IUser | null>(null);
 
   const handleLogin = (id: number) => {
-    console.log(`login id:${id}`);
+    const user = users.find((user) => user.id === id);
+
+    if (!user) {
+      console.log('user not found');
+      setUser(null);
+      setAuthStatus('not-authenticated');
+      return false;
+    }
+
+    setUser(user);
+    setAuthStatus('authenticated');
     return true;
   };
 
   const handleLogout = () => {
-    console.log('logout');
+    setAuthStatus('not-authenticated');
+    setUser(null);
   };
 
   const value = useMemo(
@@ -36,7 +47,7 @@ export const UserContextProvider = ({ children }: IUSerContextProviders) => {
       onLogin: handleLogin,
       onLogout: handleLogout,
     }),
-    []
+    [authStatus, user]
   );
 
   return <UserContext value={value}>{children}</UserContext>;
