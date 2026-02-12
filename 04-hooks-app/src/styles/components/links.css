@@ -1,0 +1,118 @@
+@layer components {
+  /* ==================================================
+     Base link (aplica a .link Y a <a> sin clase)
+     ================================================== */
+
+  a:not([class]) {
+    @apply relative inline-flex items-center gap-1;
+    @apply font-medium text-white/80;
+    @apply transition-all duration-300 ease-out;
+    @apply select-none;
+  }
+
+  a:not([class]):hover {
+    @apply text-white;
+  }
+
+  a:not([class]):focus-visible {
+    @apply outline-none ring-2 ring-white/50 ring-offset-2 ring-offset-black/30;
+  }
+
+  /* Animated underline default */
+  a:not([class])::after {
+    content: '';
+    @apply absolute left-0 -bottom-1 h-[2px] w-full;
+    @apply bg-white/70;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 300ms ease;
+  }
+
+  a:not([class]):hover::after {
+    transform: scaleX(1);
+  }
+
+  /* ==================================================
+     Component API (.link)
+     ================================================== */
+
+  .link {
+    @apply relative inline-flex items-center gap-1;
+    @apply font-medium;
+    @apply transition-all duration-300 ease-out;
+    @apply select-none;
+    @apply text-white/80;
+  }
+
+  .link:hover {
+    @apply text-white;
+  }
+
+  .link:focus-visible {
+    @apply outline-none ring-2 ring-white/50 ring-offset-2 ring-offset-black/30;
+  }
+
+  .link::after {
+    content: '';
+    @apply absolute left-0 -bottom-1 h-[2px] w-full;
+    @apply bg-white/70;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 300ms ease;
+  }
+
+  .link:hover::after {
+    transform: scaleX(1);
+  }
+
+  /* ==================================================
+     Variants
+     ================================================== */
+
+  .link-primary {
+    @apply text-indigo-300;
+  }
+
+  .link-primary::after {
+    @apply bg-indigo-400;
+  }
+
+  .link-muted {
+    @apply text-white/50;
+  }
+
+  .link-muted:hover {
+    @apply text-white/80;
+  }
+
+  .link-ghost {
+    @apply px-3 py-1.5 rounded-xl;
+    @apply hover:bg-white/10;
+  }
+
+  /* ==================================================
+     Navigation (glass pill style)
+     ================================================== */
+
+  .link-nav {
+    @apply px-4 py-2 rounded-2xl;
+    @apply backdrop-blur-xl transition-all duration-300;
+    @apply text-white/80;
+  }
+
+  .link-nav:hover {
+    @apply bg-white/10 text-white;
+  }
+
+  /* Active state (React Router + manual) */
+  .link-nav[aria-current='page'],
+  .link-nav.is-active {
+    @apply bg-white/15 text-white;
+    @apply shadow-[0_8px_24px_rgba(0,0,0,0.25)];
+  }
+
+  /* Icons */
+  .link svg {
+    @apply size-4;
+  }
+}

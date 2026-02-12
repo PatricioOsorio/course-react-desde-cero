@@ -1,6 +1,10 @@
 @layer components {
-  /* Base button component */
-  .btn {
+  /* ==================================================
+     Base button (aplica a .btn Y button sin clase)
+     ================================================== */
+
+  .btn,
+  button:not([class]) {
     /* Layout + feel */
     @apply relative inline-flex items-center justify-center gap-2;
     @apply px-5 py-2.5 font-semibold select-none whitespace-nowrap;
@@ -19,19 +23,25 @@
     box-shadow: var(--shadow-base);
   }
 
-  .btn:hover {
+  .btn:hover,
+  button:not([class]):hover {
     box-shadow: var(--shadow-hover);
   }
 
   /* Focus accesible */
-  .btn:focus-visible {
+  .btn:focus-visible,
+  button:not([class]):focus-visible {
     @apply outline-none ring-2 ring-offset-2;
     --tw-ring-color: var(--ring);
     --tw-ring-offset-color: var(--ring-offset);
   }
 
-  /* Overlays */
-  .btn::before {
+  /* ==================================================
+     Overlays
+     ================================================== */
+
+  .btn::before,
+  button:not([class])::before {
     content: '';
     @apply pointer-events-none absolute inset-0;
     border-radius: var(--radius-btn);
@@ -39,44 +49,79 @@
     @apply opacity-60;
   }
 
-  .btn::after {
+  .btn::after,
+  button:not([class])::after {
     content: '';
     @apply pointer-events-none absolute -inset-x-10 inset-y-0;
     border-radius: var(--radius-btn);
     @apply bg-gradient-to-r from-transparent via-white/30 to-transparent;
     @apply opacity-0 blur-md;
     transform: translateX(-30%);
-    transition: opacity 300ms ease, transform 600ms ease;
+    transition:
+      opacity 300ms ease,
+      transform 600ms ease;
   }
 
-  .btn:hover::after {
+  .btn:hover::after,
+  button:not([class]):hover::after {
     @apply opacity-70;
     transform: translateX(30%);
   }
 
-  .btn svg { @apply size-4; }
+  .btn svg,
+  button:not([class]) svg {
+    @apply size-4;
+  }
 
-  /* Variants */
-  .btn-primary   { @apply bg-gradient-to-r from-indigo-500/80 to-purple-600/80 border-white/20; }
-  .btn-success   { @apply bg-gradient-to-r from-emerald-500/80 to-teal-600/80 border-white/20; }
-  .btn-danger    { @apply bg-gradient-to-r from-rose-500/80 to-red-600/80 border-white/20; }
-  .btn-warning   { @apply bg-gradient-to-r from-amber-400/85 to-orange-500/85 border-white/25 text-zinc-950; }
-  .btn-secondary { @apply bg-gradient-to-r from-zinc-500/75 to-zinc-700/75 border-white/15; }
+  /* ==================================================
+     Variants (solo con clase .btn)
+     ================================================== */
+
+  .btn-primary {
+    @apply bg-gradient-to-r from-indigo-500/80 to-purple-600/80 border-white/20;
+  }
+
+  .btn-success {
+    @apply bg-gradient-to-r from-emerald-500/80 to-teal-600/80 border-white/20;
+  }
+
+  .btn-danger {
+    @apply bg-gradient-to-r from-rose-500/80 to-red-600/80 border-white/20;
+  }
+
+  .btn-warning {
+    @apply bg-gradient-to-r from-amber-400/85 to-orange-500/85 border-white/25 text-zinc-950;
+  }
+
+  .btn-secondary {
+    @apply bg-gradient-to-r from-zinc-500/75 to-zinc-700/75 border-white/15;
+  }
 
   .btn-primary:hover,
   .btn-success:hover,
   .btn-danger:hover,
   .btn-warning:hover,
-  .btn-secondary:hover { @apply brightness-110; }
+  .btn-secondary:hover {
+    @apply brightness-110;
+  }
 
   .btn-ghost {
     background: rgb(255 255 255 / 0.05);
-    border: 1px solid rgb(255 255 255 / 0.20);
+    border: 1px solid rgb(255 255 255 / 0.2);
     color: white;
   }
 
-  /* Optional: tamaños */
-  .btn-sm { @apply px-3 py-1.5 text-sm; }
-  .btn-md { @apply px-5 py-2.5; }
-  .btn-lg { @apply px-6 py-3 text-lg; }
+  /* ==================================================
+     Sizes (solo para API explícita)
+     ================================================== */
+
+  .btn-sm {
+    @apply px-3 py-1.5 text-sm;
+  }
+  .btn-md {
+    @apply px-5 py-2.5;
+  }
+  .btn-lg {
+    @apply px-6 py-3 text-lg;
+  }
 }
