@@ -10,7 +10,7 @@ export const getUserAction = async (id: number): Promise<IUser> => {
 
   return {
     id,
-    name: 'Patricio',
+    name: 'Pato',
     location: 'CDMX',
     role: 'worker',
   };

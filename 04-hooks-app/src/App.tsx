@@ -1,8 +1,6 @@
-import { Suspense } from 'react';
-import { ClientInformation } from './08-use-suspense/ClientInformation';
 import './App.css';
 import { Toaster } from 'sonner';
-import { getUserAction } from './08-use-suspense/get-user.action';
+import { ProfessionalApp } from './09-useContext/ProfessionalApp';
 
 function App() {
   return (
@@ -18,9 +16,10 @@ function App() {
       {/* <MemoHook /> */}
       {/* <MemoCounter /> */}
       {/* <InstagramApp /> */}
-      <Suspense fallback={'loading...'}>
+      {/* <Suspense fallback={'loading...'}>
         <ClientInformation getUser={getUserAction(1)} />
-      </Suspense>
+      </Suspense> */}
+      <ProfessionalApp />
     </article>
   );
 }
