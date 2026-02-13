@@ -1,0 +1,24 @@
+@import 'tailwindcss';
+
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+/* 1) Theme tokens (shadcn variables) */
+@import './theme/tokens.css';
+
+/* 2) Base layer (html/body + resets) */
+@import './base/base.css';
+
+/* 3) Global typography helpers (NO hardcodear blanco/negro) */
+@import './theme/typography.css';
+
+/* 4) Animations */
+@import './base/view-transitions.css';
+
+/* 5) Small component helpers (opcional) */
+@import './components/layout.css';
+@import './components/links.css';
+@import './components/buttons.css';
+
+/* Tailwind v4.1: dark utilities activas cuando exista `.dark` arriba en el árbol */
+@custom-variant dark (&:where(.dark, .dark *));
