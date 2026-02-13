@@ -1,12 +1,10 @@
-import { Button } from './components/ui/button';
+import { RouterProvider } from 'react-router';
+import { appRouter } from './router/app.router';
 
-function App() {
+export const App = () => {
   return (
     <>
-      <h1>Hello world</h1>
-      <Button>Button</Button>
+      <RouterProvider router={appRouter} />
     </>
   );
-}
-
-export default App;
+};
