@@ -1,4 +1,4 @@
-import { createContext, useMemo, useState, type PropsWithChildren } from 'react';
+import { createContext, useEffect, useMemo, useState, type PropsWithChildren } from 'react';
 import { users, type IUser } from '../data/use-mock.data';
 
 export type TAuthStatus = 'checking' | 'authenticated' | 'not-authenticated';
@@ -16,9 +16,19 @@ export const UserContext = createContext({} as IUserContextProps);
 // ! HOC
 export type IUSerContextProviders = PropsWithChildren;
 
+const LS_USER_ID = 'userId';
 export const UserContextProvider = ({ children }: IUSerContextProviders) => {
   const [authStatus, setAuthStatus] = useState<TAuthStatus>('checking');
   const [user, setUser] = useState<IUser | null>(null);
+
+  useEffect(() => {
+    const userIdLocal = localStorage.getItem(LS_USER_ID);
+
+    if (!userIdLocal) return handleLogout();
+
+    const id = JSON.parse(userIdLocal);
+    handleLogin(id);
+  }, []);
 
   const handleLogin = (id: number) => {
     const user = users.find((user) => user.id === id);
@@ -32,12 +42,14 @@ export const UserContextProvider = ({ children }: IUSerContextProviders) => {
 
     setUser(user);
     setAuthStatus('authenticated');
+    localStorage.setItem(LS_USER_ID, id.toString());
     return true;
   };
 
   const handleLogout = () => {
     setAuthStatus('not-authenticated');
     setUser(null);
+    localStorage.removeItem(LS_USER_ID);
   };
 
   const value = useMemo(
