@@ -24,7 +24,7 @@ export const LoginPage = () => {
       return;
     }
 
-    navigation('/profile');
+    navigation('/profile', { viewTransition: true });
   };
 
   const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +40,9 @@ export const LoginPage = () => {
         <button type="submit">Login</button>
       </form>
 
-      <Link to="/about">return to home</Link>
+      <Link to="/about" viewTransition>
+        return to home
+      </Link>
     </article>
   );
 };

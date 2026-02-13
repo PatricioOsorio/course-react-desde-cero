@@ -16,7 +16,9 @@ export const ProfilePage = () => {
       <button className="btn btn-danger" onClick={onLogout}>
         Logout
       </button>
-      <Link to="/about">return to home</Link>
+      <Link to="/about" viewTransition>
+        return to home
+      </Link>
     </article>
   );
 };

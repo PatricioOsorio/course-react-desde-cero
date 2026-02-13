@@ -9,14 +9,20 @@ export const AboutPage = () => {
       <h1>About me</h1>
 
       <section className="flex flex-col gap-3">
-        {isAuthenticated && <Link to="/profile">Perfil</Link>}
+        {isAuthenticated && (
+          <Link to="/profile" viewTransition>
+            Perfil
+          </Link>
+        )}
 
         {isAuthenticated ? (
           <button className="btn btn-danger" onClick={onLogout}>
             Logout
           </button>
         ) : (
-          <Link to="/login">Login</Link>
+          <Link to="/login" viewTransition>
+            Login
+          </Link>
         )}
       </section>
     </article>

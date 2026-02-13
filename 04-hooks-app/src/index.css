@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@import "tw-animate-css";
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -8,7 +8,6 @@
 }
 
 @theme inline {
-
   --radius-sm: calc(var(--radius) - 4px);
 
   --radius-md: calc(var(--radius) - 2px);
@@ -87,7 +86,6 @@
 }
 
 :root {
-
   --radius: 0.625rem;
 
   --background: oklch(1 0 0);
@@ -154,7 +152,6 @@
 }
 
 .dark {
-
   --background: oklch(0.145 0 0);
 
   --foreground: oklch(0.985 0 0);
@@ -224,5 +221,45 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* View transition */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 420ms;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity, transform;
+}
+
+/* Pantalla saliente */
+::view-transition-old(root) {
+  animation-name: apple-fade-out;
+}
+
+/* Pantalla entrante */
+::view-transition-new(root) {
+  animation-name: apple-fade-in;
+}
+
+@keyframes apple-fade-in {
+  from {
+    opacity: 0.9;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px) scale(1);
+  }
+}
+
+@keyframes apple-fade-out {
+  from {
+    opacity: 1;
+    transform: translateY(0px) scale(1);
+  }
+  to {
+    opacity: 0.9;
+    transform: translateY(-6px) scale(1.02);
   }
 }
