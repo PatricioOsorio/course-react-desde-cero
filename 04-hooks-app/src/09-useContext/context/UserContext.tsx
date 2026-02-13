@@ -5,6 +5,7 @@ export type TAuthStatus = 'checking' | 'authenticated' | 'not-authenticated';
 
 export interface IUserContextProps {
   authStatus: TAuthStatus;
+  isAuthenticated: boolean;
   user: IUser | null;
   onLogin: (id: number) => boolean;
   onLogout: () => void;
@@ -55,6 +56,7 @@ export const UserContextProvider = ({ children }: IUSerContextProviders) => {
   const value = useMemo(
     () => ({
       authStatus,
+      isAuthenticated: authStatus === 'authenticated',
       user,
       onLogin: handleLogin,
       onLogout: handleLogout,
