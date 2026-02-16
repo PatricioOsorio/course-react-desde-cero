@@ -1,5 +1,6 @@
 @layer components {
   .page {
-    @apply flex flex-col items-center gap-3;
+    @apply flex flex-col gap-3 mx-auto;
+    @apply max-w-5xl;
   }
 }
