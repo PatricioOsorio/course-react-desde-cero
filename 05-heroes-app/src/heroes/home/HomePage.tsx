@@ -1,12 +1,20 @@
 import { Heart, ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { CustomJumbotron } from '@/components/custom/CustomJumbotron';
 import { HeroStats } from '../components/HeroStats';
 import { SearchControls } from '../search/ui/SearchControls';
 import { HeroGrid } from '../components/HeroGrid';
+import { useState } from 'react';
+
+export type TStatusTab = 'all' | 'favorites' | 'heroes' | 'villains';
 
 const HomePage = () => {
+  const [activeTab, setActiveTab] = useState<TStatusTab>('all');
+
+  const handleClickTrigger = (value: TStatusTab) => {
+    setActiveTab(value);
+  };
   return (
     <>
       {/* Header */}
@@ -22,20 +30,40 @@ const HomePage = () => {
       <SearchControls />
 
       {/* Tabs */}
-      <Tabs value="all" className="mb-8">
+      <Tabs value={activeTab} className="mb-8">
         <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="all">All Characters (16)</TabsTrigger>
-          <TabsTrigger value="favorites" className="flex items-center gap-2">
+          <TabsTrigger value="all" onClick={() => handleClickTrigger('all')}>
+            All Characters (16)
+          </TabsTrigger>
+          <TabsTrigger
+            value="favorites"
+            onClick={() => handleClickTrigger('favorites')}
+            className="flex items-center gap-2"
+          >
             <Heart className="h-4 w-4" />
             Favorites (3)
           </TabsTrigger>
-          <TabsTrigger value="heroes">Heroes (12)</TabsTrigger>
-          <TabsTrigger value="villains">Villains (2)</TabsTrigger>
+          <TabsTrigger value="heroes" onClick={() => handleClickTrigger('heroes')}>
+            Heroes (12)
+          </TabsTrigger>
+          <TabsTrigger value="villains" onClick={() => handleClickTrigger('villains')}>
+            Villains (2)
+          </TabsTrigger>
         </TabsList>
-      </Tabs>
 
-      {/* Character Grid */}
-      <HeroGrid />
+        <TabsContent value="all">
+          <HeroGrid />
+        </TabsContent>
+        <TabsContent value="favorites">
+          <HeroGrid />
+        </TabsContent>
+        <TabsContent value="heroes">
+          <HeroGrid />
+        </TabsContent>
+        <TabsContent value="villains">
+          <HeroGrid />
+        </TabsContent>
+      </Tabs>
 
       {/* Pagination */}
       <div className="flex items-center justify-center space-x-2">
