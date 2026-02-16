@@ -18,6 +18,7 @@ export const CustomMenu = () => {
   const elements = [
     { to: '/', label: 'Home' },
     { to: '/search', label: 'Search heroes' },
+    { to: '/heroes/1', label: 'Go to 1' },
   ];
 
   return (

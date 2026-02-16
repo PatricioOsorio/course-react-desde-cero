@@ -15,6 +15,7 @@ export const appRouter = createBrowserRouter(
     {
       path: '/',
       element: <HeroesLayout />,
+      handle: { crumb: 'Home' },
       children: [
         {
           index: true,
@@ -23,10 +24,12 @@ export const appRouter = createBrowserRouter(
         {
           path: 'heroes/1',
           element: <HeroPage />,
+          handle: { crumb: 'Hero' },
         },
         {
           path: 'search',
           element: <SearchPage />,
+          handle: { crumb: 'Search' },
         },
       ],
     },
@@ -34,6 +37,7 @@ export const appRouter = createBrowserRouter(
     {
       path: 'admin',
       element: <AdminLayout />,
+      handle: { crumb: 'Admin' },
       children: [
         {
           index: true,

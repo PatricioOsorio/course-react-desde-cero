@@ -1,38 +1,40 @@
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation-duration: 420ms;
-  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: opacity, transform;
+::view-transition-group(root) {
+  animation-duration: 500ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Pantalla saliente */
 ::view-transition-old(root) {
-  animation-name: apple-fade-out;
+  animation: slide-out-blur 500ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 /* Pantalla entrante */
 ::view-transition-new(root) {
-  animation-name: apple-fade-in;
+  animation: slide-in-blur 500ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
-@keyframes apple-fade-in {
-  from {
-    opacity: 0.9;
-    transform: translateY(8px) scale(0.98);
-  }
-  to {
+@keyframes slide-out-blur {
+  0% {
     opacity: 1;
-    transform: translateY(0px) scale(1);
+    transform: scale(1);
+    filter: blur(0px);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.95);
+    filter: blur(5px);
   }
 }
 
-@keyframes apple-fade-out {
-  from {
-    opacity: 1;
-    transform: translateY(0px) scale(1);
+@keyframes slide-in-blur {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+    filter: blur(5px);
   }
-  to {
-    opacity: 0.9;
-    transform: translateY(-6px) scale(1.02);
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0px);
   }
 }
