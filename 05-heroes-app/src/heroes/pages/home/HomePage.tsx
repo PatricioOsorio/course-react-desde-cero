@@ -1,11 +1,13 @@
 import { Heart } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { CustomJumbotron } from '@/components/custom/CustomJumbotron';
-import { HeroStats } from '../components/HeroStats';
-import { SearchControls } from '../search/ui/SearchControls';
-import { HeroGrid } from '../components/HeroGrid';
 import { useState } from 'react';
 import { CustomPagination } from '@/components/custom/CustomPagination';
+import { HeroStats } from '@/heroes/components/HeroStats';
+import { SearchControls } from '@/heroes/search/ui/SearchControls';
+import { HeroGrid } from '@/heroes/components/HeroGrid';
+import { useQuery } from '@tanstack/react-query';
+import { getHeroesByPageAction } from '@/heroes/actions/get-heroes-by-page.action';
 
 export type TStatusTab = 'all' | 'favorites' | 'heroes' | 'villains';
 
@@ -15,6 +17,13 @@ const HomePage = () => {
   const handleClickTrigger = (value: TStatusTab) => {
     setActiveTab(value);
   };
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['heroes'],
+    queryFn: () => getHeroesByPageAction(),
+    staleTime: 1000 * 60 * 5, // 5 minutes
+  });
+
   return (
     <>
       {/* Header */}

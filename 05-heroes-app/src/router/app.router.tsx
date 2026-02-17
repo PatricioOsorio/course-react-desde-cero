@@ -4,8 +4,8 @@ import { lazy } from 'react';
 import { AdminLayout } from '@/admin/layouts/AdminLayout';
 import { HeroesLayout } from '@/heroes/layouts/HeroesLayout';
 
-const HomePage = lazy(() => import('@/heroes/home/HomePage'));
-const HeroPage = lazy(() => import('@/heroes/pages/HeroPage'));
+const HomePage = lazy(() => import('@/heroes/pages/home/HomePage'));
+const HeroPage = lazy(() => import('@/heroes/pages/hero/HeroPage'));
 const SearchPage = lazy(() => import('@/heroes/search/SearchPage'));
 
 const AdminPage = lazy(() => import('@/admin/pages/AdminPage'));
