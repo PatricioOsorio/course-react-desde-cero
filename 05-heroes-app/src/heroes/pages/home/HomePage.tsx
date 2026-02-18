@@ -1,6 +1,6 @@
 import { Heart } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useSearchParams } from 'react-router';
 
 import { CustomJumbotron } from '@/components/custom/CustomJumbotron';
 import { CustomPagination } from '@/components/custom/CustomPagination';
@@ -9,14 +9,25 @@ import { HeroGrid } from '@/heroes/components/HeroGrid';
 import { HeroStats } from '@/heroes/components/HeroStats';
 import { SearchControls } from '@/heroes/search/ui/SearchControls';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useMemo } from 'react';
 
 export type TStatusTab = 'all' | 'favorites' | 'heroes' | 'villains';
 
 const HomePage = () => {
-  const [activeTab, setActiveTab] = useState<TStatusTab>('all');
+  const [searchParams, setSearchParams] = useSearchParams({ tab: 'all' });
+
+  const userSelectedTab: TStatusTab = (searchParams.get('tab') as TStatusTab) ?? 'all';
+
+  const validatedTab = useMemo(() => {
+    const validTabs: TStatusTab[] = ['all', 'favorites', 'heroes', 'villains'];
+    return validTabs.includes(userSelectedTab) ? userSelectedTab : 'all';
+  }, [userSelectedTab]);
 
   const handleClickTrigger = (value: TStatusTab) => {
-    setActiveTab(value);
+    setSearchParams((prev) => {
+      prev.set('tab', value);
+      return prev;
+    });
   };
 
   const { data: heroesResponse, isLoading: isLoadingHeroes } = useQuery({
@@ -24,8 +35,6 @@ const HomePage = () => {
     queryFn: () => getHeroesByPageAction(),
     staleTime: 1000 * 60 * 5, // 5 minutes
   });
-
-  console.log({ heroesResponse });
 
   return (
     <>
@@ -42,7 +51,7 @@ const HomePage = () => {
       <SearchControls />
 
       {/* Tabs */}
-      <Tabs value={activeTab} className="mb-8">
+      <Tabs value={validatedTab} className="mb-8">
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="all" onClick={() => handleClickTrigger('all')}>
             All Characters (16)
