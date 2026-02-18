@@ -4,6 +4,7 @@
 /build
 bun.lockb
 package-lock.json
+bun.lock 
 
 # Logs
 logs

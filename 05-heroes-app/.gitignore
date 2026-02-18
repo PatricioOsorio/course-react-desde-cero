@@ -11,7 +11,7 @@ node_modules
 dist
 dist-ssr
 *.local
-bun.lockb
+bun.lock
 .env
 
 # Editor directories and files

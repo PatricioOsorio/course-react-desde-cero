@@ -1,16 +1,16 @@
 ::view-transition-group(root) {
-  animation-duration: 500ms;
+  animation-duration: 100ms;
   animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Pantalla saliente */
 ::view-transition-old(root) {
-  animation: slide-out-blur 500ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: slide-out-blur 100ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 /* Pantalla entrante */
 ::view-transition-new(root) {
-  animation: slide-in-blur 500ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: slide-in-blur 100ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 @keyframes slide-out-blur {
