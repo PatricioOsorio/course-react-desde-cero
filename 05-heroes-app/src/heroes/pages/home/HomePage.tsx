@@ -19,13 +19,13 @@ const HomePage = () => {
     setActiveTab(value);
   };
 
-  const { data, isLoading } = useQuery({
+  const { data: heroesResponse, isLoading: isLoadingHeroes } = useQuery({
     queryKey: ['heroes'],
     queryFn: () => getHeroesByPageAction(),
     staleTime: 1000 * 60 * 5, // 5 minutes
   });
 
-  console.log({ data });
+  console.log({ heroesResponse });
 
   return (
     <>
@@ -64,7 +64,7 @@ const HomePage = () => {
         </TabsList>
 
         <TabsContent value="all">
-          <HeroGrid />
+          <HeroGrid values={heroesResponse?.heroes} isLoading={isLoadingHeroes} />
         </TabsContent>
         <TabsContent value="favorites">
           <HeroGrid />
