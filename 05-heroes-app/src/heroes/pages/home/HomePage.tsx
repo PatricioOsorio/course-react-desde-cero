@@ -16,12 +16,14 @@ export type TStatusTab = 'all' | 'favorites' | 'heroes' | 'villains';
 const HomePage = () => {
   const [searchParams, setSearchParams] = useSearchParams({ tab: 'all' });
 
-  const userSelectedTab: TStatusTab = (searchParams.get('tab') as TStatusTab) ?? 'all';
+  const tabProvided = (searchParams.get('tab') ?? 'all') as TStatusTab;
+  const pageProvided = searchParams.get('page') ?? '1';
+  const limitProvided = searchParams.get('limit') ?? '6';
 
   const validatedTab = useMemo(() => {
     const validTabs: TStatusTab[] = ['all', 'favorites', 'heroes', 'villains'];
-    return validTabs.includes(userSelectedTab) ? userSelectedTab : 'all';
-  }, [userSelectedTab]);
+    return validTabs.includes(tabProvided) ? tabProvided : 'all';
+  }, [tabProvided]);
 
   const handleClickTrigger = (value: TStatusTab) => {
     setSearchParams((prev) => {
@@ -32,7 +34,7 @@ const HomePage = () => {
 
   const { data: heroesResponse, isLoading: isLoadingHeroes } = useQuery({
     queryKey: ['heroes'],
-    queryFn: () => getHeroesByPageAction(),
+    queryFn: () => getHeroesByPageAction(+pageProvided, +limitProvided),
     staleTime: 1000 * 60 * 5, // 5 minutes
   });
 
