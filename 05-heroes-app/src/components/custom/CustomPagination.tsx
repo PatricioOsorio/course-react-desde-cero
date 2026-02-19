@@ -1,19 +1,34 @@
-import { ChevronLeft, MoreHorizontal, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+
 import { Button } from '../ui/button';
 
 export interface ICustomPaginationProps {
+  page: number;
   totalPages: number;
+  isLoading: boolean;
+  onPageChange: (page: number) => void;
 }
 
-const page = 1;
+export const CustomPagination = ({
+  page,
+  totalPages,
+  isLoading,
+  onPageChange,
+}: ICustomPaginationProps) => {
+  if (isLoading) return 'loading pagination...';
+  if (totalPages <= 1) return null;
 
-export const CustomPagination = ({ totalPages }: ICustomPaginationProps) => {
-  const isDisabledPrevious = page === 1;
-  const isDisableNext = page === totalPages;
+  const isDisabledPrevious = page <= 1;
+  const isDisableNext = page >= totalPages;
 
   return (
     <div className="flex items-center justify-center space-x-2">
-      <Button variant="outline" size="sm" disabled={isDisabledPrevious}>
+      <Button
+        variant="outline"
+        size="sm"
+        disabled={isDisabledPrevious}
+        onClick={() => onPageChange(page - 1)}
+      >
         <ChevronLeft className="h-4 w-4" />
         Previous
       </Button>
@@ -23,16 +38,18 @@ export const CustomPagination = ({ totalPages }: ICustomPaginationProps) => {
         const variant = page === index ? 'default' : 'outline';
 
         return (
-          <Button variant={variant} size="sm" key={index}>
+          <Button variant={variant} size="sm" key={index} onClick={() => onPageChange(index)}>
             {index}
           </Button>
         );
       })}
-      <Button variant="ghost" size="sm" disabled>
-        <MoreHorizontal className="h-4 w-4" />
-      </Button>
 
-      <Button variant="outline" size="sm" disabled={isDisableNext}>
+      <Button
+        variant="outline"
+        size="sm"
+        disabled={isDisableNext}
+        onClick={() => onPageChange(page + 1)}
+      >
         Next
         <ChevronRight className="h-4 w-4" />
       </Button>

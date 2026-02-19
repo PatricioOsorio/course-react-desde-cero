@@ -10,20 +10,15 @@ import { HeroStats } from '@/heroes/components/HeroStats';
 import { SearchControls } from '@/heroes/search/ui/SearchControls';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useMemo } from 'react';
+import { clamp, toInt, toTab, type TStatusTab } from '@/heroes/utils/heroUtilities';
 
-export type TStatusTab = 'all' | 'favorites' | 'heroes' | 'villains';
 
 const HomePage = () => {
-  const [searchParams, setSearchParams] = useSearchParams({ tab: 'all' });
+  const [searchParams, setSearchParams] = useSearchParams({ tab: 'all', page: '1', limit: '6' });
 
-  const tabProvided = (searchParams.get('tab') ?? 'all') as TStatusTab;
-  const pageProvided = searchParams.get('page') ?? '1';
-  const limitProvided = searchParams.get('limit') ?? '6';
-
-  const validatedTab = useMemo(() => {
-    const validTabs: TStatusTab[] = ['all', 'favorites', 'heroes', 'villains'];
-    return validTabs.includes(tabProvided) ? tabProvided : 'all';
-  }, [tabProvided]);
+  const tab = useMemo(() => toTab(searchParams.get('tab')), [searchParams]);
+  const limit = useMemo(() => toInt(searchParams.get('limit'), 6), [searchParams]);
+  const pageRaw = useMemo(() => toInt(searchParams.get('page'), 1), [searchParams]);
 
   const handleClickTrigger = (value: TStatusTab) => {
     setSearchParams((prev) => {
@@ -33,10 +28,29 @@ const HomePage = () => {
   };
 
   const { data: heroesResponse, isLoading: isLoadingHeroes } = useQuery({
-    queryKey: ['heroes'],
-    queryFn: () => getHeroesByPageAction(+pageProvided, +limitProvided),
+    queryKey: ['heroes', { page: pageRaw, limit: limit }],
+    queryFn: () => getHeroesByPageAction(pageRaw, limit),
     staleTime: 1000 * 60 * 5, // 5 minutes
   });
+
+  const totalPages = heroesResponse?.pages ?? 0;
+
+  const page = useMemo(() => {
+    if (totalPages <= 0) return 1;
+    return clamp(pageRaw, 1, totalPages);
+  }, [pageRaw, totalPages]);
+
+  const handlePageChange = (nextPage: number) => {
+    if (!totalPages) return;
+
+    const safe = clamp(Number.isFinite(nextPage) ? nextPage : 1, 1, totalPages);
+
+    setSearchParams((prev) => {
+      const next = new URLSearchParams(prev);
+      next.set('page', String(safe));
+      return next;
+    });
+  };
 
   return (
     <>
@@ -53,7 +67,7 @@ const HomePage = () => {
       <SearchControls />
 
       {/* Tabs */}
-      <Tabs value={validatedTab} className="mb-8">
+      <Tabs value={tab} className="mb-8">
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="all" onClick={() => handleClickTrigger('all')}>
             All Characters (16)
@@ -89,7 +103,12 @@ const HomePage = () => {
       </Tabs>
 
       {/* Pagination */}
-      <CustomPagination totalPages={5} />
+      <CustomPagination
+        page={page}
+        totalPages={totalPages}
+        isLoading={isLoadingHeroes}
+        onPageChange={handlePageChange}
+      />
     </>
   );
 };
