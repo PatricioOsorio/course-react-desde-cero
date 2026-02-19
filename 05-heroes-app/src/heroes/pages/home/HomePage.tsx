@@ -59,13 +59,13 @@ const HomePage = () => {
 
   return (
     <article className="page">
+      <CustomBreadcrumbs />
+
       {/* Header */}
       <CustomJumbotron
         title="Superhero Universe"
         subtitle="Discover, explore, and manage your favorite superheroes and villains"
       />
-
-      <CustomBreadcrumbs />
 
       {/* Stats Dashboard */}
       <HeroStats />

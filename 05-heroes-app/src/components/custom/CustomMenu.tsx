@@ -13,8 +13,6 @@ export const CustomMenu = () => {
 
   const isActive = (path: string) => pathname === path;
 
-  const classNameActive = (path: string) => isActive(path) && 'bg-slate-600';
-
   const elements = [
     { to: '/', label: 'Home' },
     { to: '/search', label: 'Search heroes' },
@@ -22,13 +20,19 @@ export const CustomMenu = () => {
   ];
 
   return (
-    <NavigationMenu>
-      <NavigationMenuList>
+    <NavigationMenu className="w-full max-w-full shadow-lg shadow-primary/10">
+      <NavigationMenuList className="flex gap-1 p-3">
         {elements.map((item) => (
           <NavigationMenuItem key={item.to}>
             <NavigationMenuLink
               asChild
-              className={cn(navigationMenuTriggerStyle(), classNameActive(item.to))}
+              className={cn(
+                navigationMenuTriggerStyle(),
+                'relative px-4 py-2 rounded-lg font-medium transition-all duration-200',
+                'text-foreground/70 hover:text-foreground hover:bg-accent',
+                isActive(item.to) &&
+                  'bg-linear-to-r from-primary to-primary/80 text-primary-foreground shadow-lg'
+              )}
             >
               <Link to={item.to} viewTransition>
                 {item.label}
