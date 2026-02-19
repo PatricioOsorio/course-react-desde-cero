@@ -7,9 +7,14 @@ export const toInt = (value: string | null, fallback: number) => {
   return Number.isFinite(n) && n > 0 ? Math.floor(n) : fallback;
 };
 
+export const toCategory = (value: string | null): string => {
+  const v = value ?? 'all';
+  return v;
+};
+
 export const clamp = (n: number, min: number, max: number) => Math.max(min, Math.min(max, n));
 
 export const toTab = (value: string | null): TStatusTab => {
   const v = (value ?? 'all') as TStatusTab;
-  return (VALID_TABS).includes(v) ? v : 'all';
+  return VALID_TABS.includes(v) ? v : 'all';
 };

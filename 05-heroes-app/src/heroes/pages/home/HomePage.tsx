@@ -8,7 +8,7 @@ import { HeroStats } from '@/heroes/components/HeroStats';
 import { SearchControls } from '@/heroes/search/ui/SearchControls';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useMemo } from 'react';
-import { clamp, toInt, toTab, type TStatusTab } from '@/heroes/utils/heroUtilities';
+import { clamp, toCategory, toInt, toTab, type TStatusTab } from '@/heroes/utils/heroUtilities';
 import { CustomBreadcrumbs } from '@/components/custom/CustomBreadcrumbs';
 import { useHeroSummary } from '@/hooks/useHeroSummary';
 import { usePaginatedHero } from '@/hooks/usePaginatedHero';
@@ -19,10 +19,13 @@ const HomePage = () => {
   const tab = useMemo(() => toTab(searchParams.get('tab')), [searchParams]);
   const limit = useMemo(() => toInt(searchParams.get('limit'), 6), [searchParams]);
   const pageRaw = useMemo(() => toInt(searchParams.get('page'), 1), [searchParams]);
+  const category = useMemo(() => toCategory(searchParams.get('category')), [searchParams]);
 
-  const handleClickTrigger = (value: TStatusTab) => {
+  const handleClickTrigger = (value: TStatusTab, category: string) => {
     setSearchParams((prev) => {
       prev.set('tab', value);
+      prev.set('category', category);
+      prev.set('page', '1');
       return prev;
     });
   };
@@ -30,6 +33,7 @@ const HomePage = () => {
   const { data: heroesResponse, isLoading: isLoadingHeroes } = usePaginatedHero({
     page: pageRaw,
     limit: limit,
+    category: category,
   });
 
   const { data: summary } = useHeroSummary();
@@ -72,21 +76,21 @@ const HomePage = () => {
       {/* Tabs */}
       <Tabs value={tab} className="mb-8">
         <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="all" onClick={() => handleClickTrigger('all')}>
+          <TabsTrigger value="all" onClick={() => handleClickTrigger('all', 'all')}>
             All Characters ({summary?.totalHeroes})
           </TabsTrigger>
           <TabsTrigger
             value="favorites"
-            onClick={() => handleClickTrigger('favorites')}
+            onClick={() => handleClickTrigger('favorites', 'favorites')}
             className="flex items-center gap-2"
           >
             <Heart className="h-4 w-4" />
             Favorites ()
           </TabsTrigger>
-          <TabsTrigger value="heroes" onClick={() => handleClickTrigger('heroes')}>
+          <TabsTrigger value="heroes" onClick={() => handleClickTrigger('heroes', 'hero')}>
             Heroes ({summary?.heroCount})
           </TabsTrigger>
-          <TabsTrigger value="villains" onClick={() => handleClickTrigger('villains')}>
+          <TabsTrigger value="villains" onClick={() => handleClickTrigger('villains', 'villain')}>
             Villains ({summary?.villainCount})
           </TabsTrigger>
         </TabsList>
@@ -98,10 +102,10 @@ const HomePage = () => {
           <HeroGrid />
         </TabsContent>
         <TabsContent value="heroes">
-          <HeroGrid />
+          <HeroGrid values={heroesResponse?.heroes} isLoading={isLoadingHeroes} />
         </TabsContent>
         <TabsContent value="villains">
-          <HeroGrid />
+          <HeroGrid values={heroesResponse?.heroes} isLoading={isLoadingHeroes} />
         </TabsContent>
       </Tabs>
 
