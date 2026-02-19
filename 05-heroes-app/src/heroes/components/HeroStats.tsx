@@ -1,16 +1,11 @@
 import { Heart, Users, Zap, Trophy } from 'lucide-react';
-import { useQuery } from '@tanstack/react-query';
 
 import { Badge } from '@/components/ui/badge';
 import { HeroStatCard } from './HeroStatCard';
-import { getSummaryAction } from '../actions/get-summary.action';
+import { useHeroSummary } from '@/hooks/useHeroSummary';
 
 export const HeroStats = () => {
-  const { data: summary, isLoading } = useQuery({
-    queryKey: ['summary-information'],
-    queryFn: getSummaryAction,
-    staleTime: 1000 * 60 * 5, // 5 minutes
-  });
+  const { data: summary, isLoading } = useHeroSummary();
 
   if (isLoading) return 'loading hero stats...';
 

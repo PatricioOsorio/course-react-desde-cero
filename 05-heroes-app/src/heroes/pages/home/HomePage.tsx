@@ -1,10 +1,8 @@
 import { Heart } from 'lucide-react';
-import { useQuery } from '@tanstack/react-query';
 import { useSearchParams } from 'react-router';
 
 import { CustomJumbotron } from '@/components/custom/CustomJumbotron';
 import { CustomPagination } from '@/components/custom/CustomPagination';
-import { getHeroesByPageAction } from '@/heroes/actions/get-heroes-by-page.action';
 import { HeroGrid } from '@/heroes/components/HeroGrid';
 import { HeroStats } from '@/heroes/components/HeroStats';
 import { SearchControls } from '@/heroes/search/ui/SearchControls';
@@ -12,7 +10,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useMemo } from 'react';
 import { clamp, toInt, toTab, type TStatusTab } from '@/heroes/utils/heroUtilities';
 import { CustomBreadcrumbs } from '@/components/custom/CustomBreadcrumbs';
-import { getSummaryAction } from '@/heroes/actions/get-summary.action';
+import { useHeroSummary } from '@/hooks/useHeroSummary';
+import { usePaginatedHero } from '@/hooks/usePaginatedHero';
 
 const HomePage = () => {
   const [searchParams, setSearchParams] = useSearchParams({ tab: 'all', page: '1', limit: '6' });
@@ -28,17 +27,12 @@ const HomePage = () => {
     });
   };
 
-  const { data: heroesResponse, isLoading: isLoadingHeroes } = useQuery({
-    queryKey: ['heroes', { page: pageRaw, limit: limit }],
-    queryFn: () => getHeroesByPageAction(pageRaw, limit),
-    staleTime: 1000 * 60 * 5, // 5 minutes
+  const { data: heroesResponse, isLoading: isLoadingHeroes } = usePaginatedHero({
+    page: pageRaw,
+    limit: limit,
   });
 
-  const { data: summary } = useQuery({
-    queryKey: ['summary-information'],
-    queryFn: getSummaryAction,
-    staleTime: 1000 * 60 * 5, // 5 minutes
-  });
+  const { data: summary } = useHeroSummary();
 
   const totalPages = heroesResponse?.pages ?? 0;
 
