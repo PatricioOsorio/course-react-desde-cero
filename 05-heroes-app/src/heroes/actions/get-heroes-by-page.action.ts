@@ -7,7 +7,7 @@ const INITIAL_LIMIT = 6;
 
 export const getHeroesByPageAction = async (
   page: number = INITIAL_PAGE,
-  limit: number = INITIAL_LIMIT
+  limit: number = INITIAL_LIMIT,
 ): Promise<IHeroesResponse> => {
   if (isNaN(page)) {
     page = INITIAL_PAGE;

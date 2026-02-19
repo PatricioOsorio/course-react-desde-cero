@@ -11,7 +11,8 @@ import { SearchControls } from '@/heroes/search/ui/SearchControls';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useMemo } from 'react';
 import { clamp, toInt, toTab, type TStatusTab } from '@/heroes/utils/heroUtilities';
-
+import { CustomBreadcrumbs } from '@/components/custom/CustomBreadcrumbs';
+import { getSummaryAction } from '@/heroes/actions/get-summary.action';
 
 const HomePage = () => {
   const [searchParams, setSearchParams] = useSearchParams({ tab: 'all', page: '1', limit: '6' });
@@ -30,6 +31,12 @@ const HomePage = () => {
   const { data: heroesResponse, isLoading: isLoadingHeroes } = useQuery({
     queryKey: ['heroes', { page: pageRaw, limit: limit }],
     queryFn: () => getHeroesByPageAction(pageRaw, limit),
+    staleTime: 1000 * 60 * 5, // 5 minutes
+  });
+
+  const { data: summary } = useQuery({
+    queryKey: ['summary-information'],
+    queryFn: getSummaryAction,
     staleTime: 1000 * 60 * 5, // 5 minutes
   });
 
@@ -53,12 +60,14 @@ const HomePage = () => {
   };
 
   return (
-    <>
+    <article className="page">
       {/* Header */}
       <CustomJumbotron
         title="Superhero Universe"
         subtitle="Discover, explore, and manage your favorite superheroes and villains"
       />
+
+      <CustomBreadcrumbs />
 
       {/* Stats Dashboard */}
       <HeroStats />
@@ -70,7 +79,7 @@ const HomePage = () => {
       <Tabs value={tab} className="mb-8">
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="all" onClick={() => handleClickTrigger('all')}>
-            All Characters (16)
+            All Characters ({summary?.totalHeroes})
           </TabsTrigger>
           <TabsTrigger
             value="favorites"
@@ -78,13 +87,13 @@ const HomePage = () => {
             className="flex items-center gap-2"
           >
             <Heart className="h-4 w-4" />
-            Favorites (3)
+            Favorites ()
           </TabsTrigger>
           <TabsTrigger value="heroes" onClick={() => handleClickTrigger('heroes')}>
-            Heroes (12)
+            Heroes ({summary?.heroCount})
           </TabsTrigger>
           <TabsTrigger value="villains" onClick={() => handleClickTrigger('villains')}>
-            Villains (2)
+            Villains ({summary?.villainCount})
           </TabsTrigger>
         </TabsList>
 
@@ -109,7 +118,7 @@ const HomePage = () => {
         isLoading={isLoadingHeroes}
         onPageChange={handlePageChange}
       />
-    </>
+    </article>
   );
 };
 
