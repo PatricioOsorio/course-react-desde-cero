@@ -1,4 +1,12 @@
-import { createContext, useCallback, useMemo, useState, type PropsWithChildren } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+  type PropsWithChildren,
+} from 'react';
 import type { IHero } from '../models/hero.interface';
 
 export interface IFavoriteHeroContext {
@@ -6,38 +14,55 @@ export interface IFavoriteHeroContext {
   favoriteCount: number;
 
   toggleFavorite: (hero: IHero) => void;
-  isFavorite: (hero: IHero) => boolean;
+  checkIfFavorite: (hero: IHero) => boolean;
 }
 
-export const FavoriteHeroContext = createContext({} as IFavoriteHeroContext);
+export const FavoriteHeroContext = createContext<IFavoriteHeroContext | undefined>(undefined);
+
+export const useFavoriteHero = () => {
+  const ctx = useContext(FavoriteHeroContext);
+  if (!ctx) throw new Error('useFavoriteHero must be used within <FavoriteHeroProvider />');
+  return ctx;
+};
 
 export type TFavoriteHeroProvider = PropsWithChildren;
+
+// TODO: ADD ZOD
+const getFavoritesFromLocalStorage = (): IHero[] => {
+  const favorites = localStorage.getItem('favorites');
+
+  return favorites ? JSON.parse(favorites) : [];
+};
+
 export const FavoriteHeroProvider = ({ children }: TFavoriteHeroProvider) => {
-  const [favorites, setFavorites] = useState<IHero[]>([]);
+  const [favorites, setFavorites] = useState<IHero[]>(getFavoritesFromLocalStorage());
 
-  const toggleFavorite = useCallback(
-    (hero: IHero) => {
-      const heroExist = favorites.find((h) => h.id === hero.id);
+  const toggleFavorite = useCallback((hero: IHero) => {
+    setFavorites((prev) => {
+      const exists = prev.some((h) => h.id === hero.id);
+      return exists ? prev.filter((h) => h.id !== hero.id) : [...prev, hero];
+    });
+  }, []);
 
-      if (heroExist) {
-        const newFavorites = favorites.filter((h) => h.id !== hero.id);
-        setFavorites(newFavorites);
-        return;
-      }
-
-      setFavorites([...favorites, hero]);
+  const checkIfFavorite = useCallback(
+    (hero: IHero): boolean => {
+      return favorites.some((h) => h.id === hero.id);
     },
     [favorites]
   );
 
+  useEffect(() => {
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+  }, [favorites]);
+
   const value = useMemo<IFavoriteHeroContext>(
     () => ({
-      favorites: [],
-      favoriteCount: 0,
-      toggleFavorite: toggleFavorite,
-      isFavorite: () => false,
+      favorites,
+      favoriteCount: favorites.length,
+      toggleFavorite,
+      checkIfFavorite,
     }),
-    [toggleFavorite]
+    [favorites, toggleFavorite, checkIfFavorite]
   );
 
   return <FavoriteHeroContext.Provider value={value}>{children}</FavoriteHeroContext.Provider>;
