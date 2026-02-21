@@ -26,10 +26,13 @@ const HomePage = () => {
 
   const handleClickTrigger = (value: TStatusTab, category: string) => {
     setSearchParams((prev) => {
-      prev.set('tab', value);
-      prev.set('category', category);
-      prev.set('page', '1');
-      return prev;
+      const next = new URLSearchParams(prev);
+
+      next.set('tab', value);
+      next.set('category', category);
+      next.set('page', '1');
+
+      return next;
     });
   };
 
