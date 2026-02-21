@@ -12,9 +12,12 @@ import { clamp, toCategory, toInt, toTab, type TStatusTab } from '@/heroes/utils
 import { CustomBreadcrumbs } from '@/components/custom/CustomBreadcrumbs';
 import { useHeroSummary } from '@/hooks/useHeroSummary';
 import { usePaginatedHero } from '@/hooks/usePaginatedHero';
+import { useFavoriteHero } from '@/heroes/context/FavoriteHeroContext';
 
 const HomePage = () => {
   const [searchParams, setSearchParams] = useSearchParams({ tab: 'all', page: '1', limit: '6' });
+
+  const { favoriteCount, favorites } = useFavoriteHero();
 
   const tab = useMemo(() => toTab(searchParams.get('tab')), [searchParams]);
   const limit = useMemo(() => toInt(searchParams.get('limit'), 6), [searchParams]);
@@ -85,7 +88,7 @@ const HomePage = () => {
             className="flex items-center gap-2"
           >
             <Heart className="h-4 w-4" />
-            Favorites ()
+            Favorites ({favoriteCount})
           </TabsTrigger>
           <TabsTrigger value="heroes" onClick={() => handleClickTrigger('heroes', 'hero')}>
             Heroes ({summary?.heroCount})
@@ -99,7 +102,7 @@ const HomePage = () => {
           <HeroGrid values={heroesResponse?.heroes} isLoading={isLoadingHeroes} />
         </TabsContent>
         <TabsContent value="favorites">
-          <HeroGrid />
+          <HeroGrid values={favorites} isLoading={false} />
         </TabsContent>
         <TabsContent value="heroes">
           <HeroGrid values={heroesResponse?.heroes} isLoading={isLoadingHeroes} />

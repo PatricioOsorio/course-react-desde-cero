@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import type { IHero } from '../models/hero.interface';
+import { useFavoriteHero } from '../context/FavoriteHeroContext';
 
 export interface IHeroGridCardProps {
   value: IHero;
@@ -13,6 +14,7 @@ export interface IHeroGridCardProps {
 
 export const HeroGridCard = ({ value }: IHeroGridCardProps) => {
   const navigate = useNavigate();
+  const { checkIfFavorite, toggleFavorite } = useFavoriteHero();
 
   const {
     alias,
@@ -33,7 +35,7 @@ export const HeroGridCard = ({ value }: IHeroGridCardProps) => {
   } = value;
 
   const handleClickCard = () => {
-    navigate(`/heroes/${slug}`);
+    navigate(`/heroes/${slug}`, { viewTransition: true });
   };
   return (
     <Card className="group pt-0 overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-gradient-to-br dark:from-slate-950 dark:to-gray-900">
@@ -67,8 +69,11 @@ export const HeroGridCard = ({ value }: IHeroGridCardProps) => {
             size="sm"
             variant="ghost"
             className="absolute bottom-3 right-3 z-20 bg-white/90 hover:bg-white"
+            onClick={() => toggleFavorite(value)}
           >
-            <Heart className="h-4 w-4 fill-red-500 text-red-500" />
+            <Heart
+              className={`h-4 w-4 ${checkIfFavorite(value) ? 'fill-red-500 text-red-500' : 'text-gray-500'}`}
+            />
           </Button>
           {/* View details button */}
           <Button
