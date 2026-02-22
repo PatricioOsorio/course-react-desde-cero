@@ -4,10 +4,7 @@ import { Search, Filter, SortAsc, Grid, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useSearchParams } from 'react-router';
-
-const SEARCH_PARAM_KEYS = {
-  name: 'name',
-} as const;
+import { SEARCH_PARAM_KEYS } from '@/heroes/actions/search-heroes.action';
 
 export const SearchControls = () => {
   const [searchParams, setSearchParams] = useSearchParams({ [SEARCH_PARAM_KEYS.name]: '' });

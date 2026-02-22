@@ -18,3 +18,8 @@ export const toTab = (value: string | null): TStatusTab => {
   const v = (value ?? 'all') as TStatusTab;
   return VALID_TABS.includes(v) ? v : 'all';
 };
+
+export const getStringValue = (value: string | null, fallback: string) => {
+  const v = value ?? fallback;
+  return v.trim() === '' ? fallback : v;
+};
