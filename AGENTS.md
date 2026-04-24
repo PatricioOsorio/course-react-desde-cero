@@ -1,0 +1,1 @@
+- User prefers caveman mode active by default.
