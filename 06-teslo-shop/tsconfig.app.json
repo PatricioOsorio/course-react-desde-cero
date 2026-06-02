@@ -19,7 +19,14 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+
+    /* Alias */
+    "paths": {
+      "@admin/*": ["./src/admin/*"],
+      "@auth/*": ["./src/auth/*"],
+      "@shop/*": ["./src/shop/*"]
+    }
   },
   "include": ["src"]
 }
