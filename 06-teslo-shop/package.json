@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "lint": "eslint . --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint . --fix",
+    "format": "eslint . --fix && prettier --write .",
+    "code:clean": "npm run lint:fix && npm run format",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -28,11 +31,14 @@
     "babel-plugin-react-compiler": "^1.0.0",
     "daisyui": "^5.5.19",
     "eslint": "^10.2.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.5.0",
     "jiti": "^2.6.1",
     "prettier": "^3.8.3",
+    "prettier-plugin-organize-attributes": "^1.0.0",
     "prettier-plugin-tailwindcss": "^0.0.0-insiders.f7d2598",
     "tailwindcss": "4.2.2",
     "typescript": "~6.0.2",
