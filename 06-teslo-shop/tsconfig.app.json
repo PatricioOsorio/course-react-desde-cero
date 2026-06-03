@@ -23,9 +23,12 @@
 
     /* Alias */
     "paths": {
+      "@/*": ["./src/*"],
+      "styles/*": ["./src/styles/*"],
       "@admin/*": ["./src/admin/*"],
       "@auth/*": ["./src/auth/*"],
-      "@shop/*": ["./src/shop/*"]
+      "@shop/*": ["./src/shop/*"],
+      "@shared/*": ["./src/shared/*"]
     }
   },
   "include": ["src"]
