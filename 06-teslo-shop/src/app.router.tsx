@@ -1,7 +1,7 @@
 import { createBrowserRouter, Navigate } from 'react-router';
 
 // Shop
-const ShopLayout = async () => (await import('@shop/layouts')).default;
+const ShopLayout = async () => (await import('@/shop/layouts/ShopLayout')).default;
 const HomePage = async () => (await import('@shop/pages/Home')).default;
 const ProductPage = async () => (await import('@shop/pages/Product')).default;
 const GenderPage = async () => (await import('@shop/pages/Gender')).default;

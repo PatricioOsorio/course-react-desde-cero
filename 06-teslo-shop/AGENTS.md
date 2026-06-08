@@ -26,6 +26,7 @@ There is no test runner configured in this project.
 Teslo Shop — a React 19 + TypeScript + Vite SPA. Course project (`06-teslo-shop`).
 
 **Feature-module layout.** `src/` is split into four top-level domains, each with its own `layouts/` and `pages/` folders:
+
 - `shop/` — public storefront (Home, Product, Gender)
 - `auth/` — Login, Register
 - `admin/` — Dashboard, Products, admin Product editor

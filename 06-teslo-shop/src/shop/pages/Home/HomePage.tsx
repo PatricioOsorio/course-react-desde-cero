@@ -1,12 +1,12 @@
-import { Button } from '@/shared/components/ui/button';
+import { JumbotronShop } from '@/shop/components/JumbotronShop';
 
 export const HomePage = () => {
   return (
-    <article>
-      <h1>HomePage</h1>
-      <Button variant="default">Button</Button>
-      <Button variant="secondary">Button</Button>
-      <Button variant="destructive">Button</Button>
-    </article>
+    <>
+      <JumbotronShop
+        subtitle="Discover our exclusive collection of Tesla-inspired apparel and accessories. Shop now and elevate your style with the spirit of innovation and elegance."
+        title="All you need is style"
+      />
+    </>
   );
 };

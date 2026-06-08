@@ -1,5 +1,5 @@
 import type React from 'react';
-import type { PropsWithChildren, ReactNode } from 'react';
+import type { ComponentProps, PropsWithChildren, ReactNode } from 'react';
 
 export type IWithLoading = {
   isLoading?: boolean;
@@ -11,6 +11,8 @@ export type IWithEmpty = {
 };
 
 export type IWithChildren = PropsWithChildren;
+
+export type IWithComponentProps<T extends React.ElementType> = ComponentProps<T>;
 
 export type IWithTestId = {
   'data-testid'?: string;

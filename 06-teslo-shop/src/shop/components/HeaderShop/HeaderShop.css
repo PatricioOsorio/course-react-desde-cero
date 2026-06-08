@@ -1,0 +1,49 @@
+@reference "@styles/app.css";
+
+.header-shop-container {
+  @apply sticky top-0 z-50 w-full border-b backdrop-blur;
+
+  .hsc__inner {
+    @apply container mx-auto px-4 lg:px-8;
+  }
+
+  .hsc__toolbar {
+    @apply flex h-16 items-center justify-between;
+  }
+
+  .hsc__brand {
+    @apply flex items-center space-x-4;
+  }
+
+  .hsc__logo {
+    @apply text-xl font-semibold tracking-tight;
+  }
+
+  .hsc__nav {
+    @apply hidden items-center space-x-8 md:flex;
+  }
+
+  .hsc__nav-link {
+    @apply hover:text-primary text-sm font-medium transition-colors;
+  }
+
+  .hsc__actions {
+    @apply flex items-center space-x-4;
+  }
+
+  .hsc__search-desktop {
+    @apply hidden items-center md:flex;
+  }
+
+  .hsc__search-input-wrapper {
+    @apply relative;
+  }
+
+  .hsc__search-icon {
+    @apply text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2;
+  }
+
+  .hsc__cart-badge {
+    @apply bg-primary text-primary-foreground absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full text-xs;
+  }
+}

@@ -1,0 +1,6 @@
+@reference "@styles/app.css";
+
+.shop-layout {
+  @apply bg-background min-h-screen;
+  @apply grid min-h-screen grid-rows-[auto_1fr_auto];
+}
