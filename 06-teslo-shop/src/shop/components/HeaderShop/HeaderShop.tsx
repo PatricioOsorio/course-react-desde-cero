@@ -1,9 +1,8 @@
 import { Menu, Search, ShoppingBag } from 'lucide-react';
+import { Input } from 'styleguide/input';
+import { Button } from 'styleguide/button';
 
-import { Button } from '@/shared/components/ui/button';
-import { Input } from '@/shared/components/ui/input';
 import { cn } from '@/shared/lib/utils';
-
 import type { IHeaderShopProps } from './HeaderShop.interfaces';
 
 import './HeaderShop.css';

@@ -1,6 +1,6 @@
 import { cn } from '@/shared/lib/utils';
+import { Spinner } from 'styleguide/spinner';
 
-import { Spinner } from '../ui/spinner';
 import type { ILoadingProps } from './Loading.interfaces';
 
 import './Loading.css';

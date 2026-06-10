@@ -1,8 +1,16 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
-@import 'shadcn/tailwind.css';
+
+/* @import 'shadcn/tailwind.css'; */
 @import '@fontsource-variable/montserrat';
 
+/* Importar estilos de la librería */
+@import 'styleguide/styles/index.css';
+
+/* Permitir que Tailwind escanee los componentes de la librería */
+@source '../../node_modules/styleguide/dist';
+
+/* 
 @custom-variant dark (&:is(.dark *));
 
 @plugin '@tailwindcss/typography';
@@ -128,4 +136,4 @@
     @apply font-sans;
   }
 }
-@import './themes/custom.css';
+@import './themes/custom.css'; */

@@ -1,0 +1,13 @@
+@reference "@styles/app.css";
+
+.pagination-container {
+  @apply flex items-center justify-center space-x-2;
+
+  .pc__loading {
+    @apply text-muted-foreground py-2 text-sm;
+  }
+
+  .pc__icon {
+    @apply h-4 w-4;
+  }
+}

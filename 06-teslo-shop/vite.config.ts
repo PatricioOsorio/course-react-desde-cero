@@ -16,5 +16,6 @@ export default defineConfig({
       '@shop': path.resolve(__dirname, './src/shop'),
       '@shared': path.resolve(__dirname, './src/shared'),
     },
+    dedupe: ['react', 'react-dom'],
   },
 });

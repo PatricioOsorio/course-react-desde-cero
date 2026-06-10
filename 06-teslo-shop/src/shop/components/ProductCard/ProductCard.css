@@ -1,0 +1,51 @@
+@reference "@styles/app.css";
+
+.product-card-container {
+  .pcc__card {
+    @apply cursor-pointer border-0 shadow-none;
+  }
+
+  .pcc__content {
+    @apply p-0;
+  }
+
+  .pcc__image-wrapper {
+    @apply bg-muted relative aspect-square overflow-hidden rounded-lg;
+  }
+
+  .pcc__image {
+    @apply h-full w-full object-cover transition-transform duration-300 group-hover:scale-105;
+  }
+
+  .pcc__overlay {
+    @apply transition-opacity duration-300;
+  }
+
+  .pcc__details {
+    @apply space-y-3 px-4 pt-6 pb-4;
+  }
+
+  .pcc__info {
+    @apply space-y-1;
+  }
+
+  .pcc__name {
+    @apply text-sm font-medium tracking-tight;
+  }
+
+  .pcc__category {
+    @apply text-muted-foreground text-xs uppercase;
+  }
+
+  .pcc__footer {
+    @apply flex items-center justify-between;
+  }
+
+  .pcc__price {
+    @apply text-lg font-semibold;
+  }
+
+  .pcc__button {
+    @apply border-primary/20 hover:bg-primary hover:text-primary-foreground h-8 px-4 py-2 text-xs opacity-0 transition-all duration-300 group-hover:opacity-100;
+  }
+}

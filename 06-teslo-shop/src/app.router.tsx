@@ -1,5 +1,7 @@
 import { createBrowserRouter, Navigate } from 'react-router';
 
+const RootLayout = async () => (await import('@shared/layouts/RootLayout')).default;
+
 // Shop
 const ShopLayout = async () => (await import('@/shop/layouts/ShopLayout')).default;
 const HomePage = async () => (await import('@shop/pages/Home')).default;
@@ -20,81 +22,36 @@ const ProductsPage = async () => (await import('@admin/pages/Products')).default
 export const appRouter = createBrowserRouter([
   {
     path: '/',
-    lazy: {
-      Component: ShopLayout,
-    },
+    lazy: { Component: RootLayout },
     children: [
       {
-        index: true,
-        lazy: {
-          Component: HomePage,
-          // Si la página tiene loader, también se puede lazy:
-          // loader: async () => (await import('@shop/pages/Home/loader')).loader,
-        },
+        path: '/',
+        lazy: { Component: ShopLayout },
+        children: [
+          { index: true, lazy: { Component: HomePage } },
+          { path: 'product/:idSlug', lazy: { Component: ProductPage } },
+          { path: 'gender/:gender', lazy: { Component: GenderPage } },
+        ],
       },
       {
-        path: 'product/:idSlug',
-        lazy: {
-          Component: ProductPage,
-        },
+        path: '/auth',
+        lazy: { Component: AuthLayout },
+        children: [
+          { index: true, element: <Navigate replace to="/auth/login" /> },
+          { path: 'login', lazy: { Component: LoginPage } },
+          { path: 'register', lazy: { Component: RegisterPage } },
+        ],
       },
       {
-        path: 'gender/:gender',
-        lazy: {
-          Component: GenderPage,
-        },
+        path: '/admin',
+        lazy: { Component: AdminLayout },
+        children: [
+          { index: true, lazy: { Component: Dashboard } },
+          { path: 'product/:id', lazy: { Component: AdminProductPage } },
+          { path: 'products', lazy: { Component: ProductsPage } },
+        ],
       },
+      { path: '*', element: <Navigate replace to="/" /> },
     ],
-  },
-
-  // auth
-  {
-    path: '/auth',
-    lazy: {
-      Component: AuthLayout,
-    },
-    children: [
-      {
-        index: true,
-        element: <Navigate replace to="/auth/login" />,
-      },
-      { path: 'login', lazy: { Component: LoginPage } },
-      {
-        path: 'register',
-        lazy: { Component: RegisterPage },
-      },
-    ],
-  },
-
-  // admin
-  {
-    path: '/admin',
-    lazy: {
-      Component: AdminLayout,
-    },
-    children: [
-      {
-        index: true,
-        lazy: {
-          Component: Dashboard,
-        },
-      },
-      {
-        path: 'product/:id',
-        lazy: {
-          Component: AdminProductPage,
-        },
-      },
-      {
-        path: 'products',
-        lazy: {
-          Component: ProductsPage,
-        },
-      },
-    ],
-  },
-  {
-    path: '*',
-    element: <Navigate replace to="/" />,
   },
 ]);
