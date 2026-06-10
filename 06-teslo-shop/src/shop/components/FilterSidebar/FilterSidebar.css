@@ -1,0 +1,33 @@
+@reference "@styles/app.css";
+
+.filter-sidebar-container {
+  @apply w-64 space-y-6;
+
+  .fsc__title {
+    @apply mb-4 text-lg font-semibold;
+  }
+
+  .fsc__section {
+    @apply space-y-4;
+  }
+
+  .fsc__section-title {
+    @apply font-medium;
+  }
+
+  .fsc__sizes-grid {
+    @apply grid grid-cols-3 gap-2;
+  }
+
+  .fsc__price-group {
+    @apply space-y-3;
+  }
+
+  .fsc__price-item {
+    @apply flex items-center space-x-2;
+  }
+
+  .fsc__price-label {
+    @apply cursor-pointer text-sm;
+  }
+}

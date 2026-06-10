@@ -2,7 +2,12 @@ import { Button } from 'styleguide/button';
 import { Separator } from 'styleguide/separator';
 import { RadioGroup } from 'styleguide/radio-group';
 import { Label } from 'styleguide/label';
+
+import { cn } from '@/shared/lib/utils';
+
 import type { IFilterSidebarProps } from './FilterSidebar.interfaces';
+
+import './FilterSidebar.css';
 
 const SIZES = [
   { id: 'xs', label: 'XS' },
@@ -13,17 +18,17 @@ const SIZES = [
   { id: 'xxl', label: 'XXL' },
 ];
 
-export const FilterSidebar = ({ sizes, onSizeChange }: IFilterSidebarProps) => {
+export const FilterSidebar = ({ sizes, onSizeChange, rootProps }: IFilterSidebarProps) => {
   return (
-    <div className="w-64 space-y-6">
+    <div {...rootProps} className={cn('filter-sidebar-container', rootProps?.className)}>
       <div>
-        <h3 className="mb-4 text-lg font-semibold">Filtros</h3>
+        <h3 className="fsc__title">Filtros</h3>
       </div>
 
       {/* SIZES */}
-      <div className="space-y-4">
-        <h4 className="font-medium">Tallas</h4>
-        <div className="grid grid-cols-3 gap-2">
+      <div className="fsc__section">
+        <h4 className="fsc__section-title">Tallas</h4>
+        <div className="fsc__sizes-grid">
           {SIZES.map((size) => (
             <Button
               key={size.id}
@@ -41,36 +46,36 @@ export const FilterSidebar = ({ sizes, onSizeChange }: IFilterSidebarProps) => {
       <Separator />
 
       {/* Price Range */}
-      <div className="space-y-4">
-        <h4 className="font-medium">Precio</h4>
-        <RadioGroup className="space-y-3" defaultValue="">
-          <div className="flex items-center space-x-2">
+      <div className="fsc__section">
+        <h4 className="fsc__section-title">Precio</h4>
+        <RadioGroup className="fsc__price-group" defaultValue="">
+          <div className="fsc__price-item">
             <RadioGroup.Item id="priceAny" value="any" />
-            <Label className="cursor-pointer text-sm" htmlFor="priceAny">
+            <Label className="fsc__price-label" htmlFor="priceAny">
               Cualquier precio
             </Label>
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="fsc__price-item">
             <RadioGroup.Item id="price1" value="0-50" />
-            <Label className="cursor-pointer text-sm" htmlFor="price1">
+            <Label className="fsc__price-label" htmlFor="price1">
               $0 - $50
             </Label>
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="fsc__price-item">
             <RadioGroup.Item id="price2" value="50-100" />
-            <Label className="cursor-pointer text-sm" htmlFor="price2">
+            <Label className="fsc__price-label" htmlFor="price2">
               $50 - $100
             </Label>
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="fsc__price-item">
             <RadioGroup.Item id="price3" value="100-200" />
-            <Label className="cursor-pointer text-sm" htmlFor="price3">
+            <Label className="fsc__price-label" htmlFor="price3">
               $100 - $200
             </Label>
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="fsc__price-item">
             <RadioGroup.Item id="price4" value="200+" />
-            <Label className="cursor-pointer text-sm" htmlFor="price4">
+            <Label className="fsc__price-label" htmlFor="price4">
               $200+
             </Label>
           </div>

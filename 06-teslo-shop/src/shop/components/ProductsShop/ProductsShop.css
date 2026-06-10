@@ -1,0 +1,77 @@
+@reference "@styles/app.css";
+
+.products-shop-container {
+  @apply px-4 py-12 lg:px-8;
+
+  .psc__wrapper {
+    @apply container mx-auto;
+  }
+
+  .psc__header {
+    @apply mb-8 flex items-center justify-between;
+  }
+
+  .psc__header-title-box {
+    @apply flex items-center space-x-4;
+  }
+
+  .psc__title {
+    @apply text-3xl font-light;
+  }
+
+  .psc__count {
+    @apply text-muted-foreground;
+  }
+
+  .psc__header-actions {
+    @apply flex items-center space-x-2;
+  }
+
+  .psc__btn-mobile-filters {
+    @apply lg:hidden;
+  }
+
+  .psc__view-modes {
+    @apply hidden rounded-md border md:flex;
+  }
+
+  .psc__btn-grid {
+    @apply rounded-r-none;
+  }
+
+  .psc__btn-list {
+    @apply rounded-l-none;
+  }
+
+  .psc__content-layout {
+    @apply flex gap-8;
+  }
+
+  .psc__sidebar-desktop {
+    @apply hidden lg:block;
+  }
+
+  .psc__sidebar-mobile {
+    @apply bg-background fixed inset-0 z-50 p-4 lg:hidden;
+  }
+
+  .psc__mobile-header {
+    @apply mb-6 flex items-center justify-between;
+  }
+
+  .psc__mobile-title {
+    @apply text-lg font-semibold;
+  }
+
+  .psc__main-content {
+    @apply flex-1;
+  }
+
+  .psc__grid {
+    @apply grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3;
+  }
+
+  .psc__list {
+    @apply space-y-4;
+  }
+}

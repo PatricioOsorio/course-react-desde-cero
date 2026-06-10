@@ -1,9 +1,14 @@
 import { Filter, Grid, List } from 'lucide-react';
 import { Button } from 'styleguide/button';
-import type { IProductsShopProps } from './ProductsShop.interfaces';
+
+import { cn } from '@/shared/lib/utils';
 import { products as ProductsMock } from '@/mocks/products.mock';
+
+import type { IProductsShopProps } from './ProductsShop.interfaces';
 import { ProductCard } from '../ProductCard';
 import { FilterSidebarContainer } from '../FilterSidebar/FilterSidebar.container';
+
+import './ProductsShop.css';
 
 export const ProductsShop = ({
   products,
@@ -11,25 +16,26 @@ export const ProductsShop = ({
   onViewModeChange,
   showFilters,
   onToggleFilters,
+  rootProps,
 }: IProductsShopProps) => {
   return (
-    <section className="px-4 py-12 lg:px-8">
-      <div className="container mx-auto">
-        <div className="mb-8 flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <h2 className="text-3xl font-light">Productos</h2>
-            <span className="text-muted-foreground">({products.length} productos)</span>
+    <section {...rootProps} className={cn('products-shop-container', rootProps?.className)}>
+      <div className="psc__wrapper">
+        <div className="psc__header">
+          <div className="psc__header-title-box">
+            <h2 className="psc__title">Productos</h2>
+            <span className="psc__count">({products.length} productos)</span>
           </div>
 
-          <div className="flex items-center space-x-2">
-            <Button className="lg:hidden" size="sm" variant="outline" onClick={onToggleFilters}>
+          <div className="psc__header-actions">
+            <Button className="psc__btn-mobile-filters" size="sm" variant="outline" onClick={onToggleFilters}>
               <Filter className="mr-2 h-4 w-4" />
               Filtros
             </Button>
 
-            <div className="hidden rounded-md border md:flex">
+            <div className="psc__view-modes">
               <Button
-                className="rounded-r-none"
+                className="psc__btn-grid"
                 size="sm"
                 variant={viewMode === 'grid' ? 'default' : 'ghost'}
                 onClick={() => onViewModeChange('grid')}
@@ -37,7 +43,7 @@ export const ProductsShop = ({
                 <Grid className="h-4 w-4" />
               </Button>
               <Button
-                className="rounded-l-none"
+                className="psc__btn-list"
                 size="sm"
                 variant={viewMode === 'list' ? 'default' : 'ghost'}
                 onClick={() => onViewModeChange('list')}
@@ -48,17 +54,17 @@ export const ProductsShop = ({
           </div>
         </div>
 
-        <div className="flex gap-8">
+        <div className="psc__content-layout">
           {/* Filters Sidebar - Desktop */}
-          <div className="hidden lg:block">
+          <div className="psc__sidebar-desktop">
             <FilterSidebarContainer />
           </div>
 
           {/* Mobile Filters */}
           {showFilters && (
-            <div className="bg-background fixed inset-0 z-50 p-4 lg:hidden">
-              <div className="mb-6 flex items-center justify-between">
-                <h3 className="text-lg font-semibold">Filtros</h3>
+            <div className="psc__sidebar-mobile">
+              <div className="psc__mobile-header">
+                <h3 className="psc__mobile-title">Filtros</h3>
                 <Button size="sm" variant="ghost" onClick={() => onToggleFilters()}>
                   Cerrar
                 </Button>
@@ -68,14 +74,8 @@ export const ProductsShop = ({
           )}
 
           {/* Products Grid */}
-          <div className="flex-1">
-            <div
-              className={
-                viewMode === 'grid'
-                  ? 'grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3'
-                  : 'space-y-4'
-              }
-            >
+          <div className="psc__main-content">
+            <div className={viewMode === 'grid' ? 'psc__grid' : 'psc__list'}>
               {ProductsMock.map((product) => (
                 <ProductCard
                   key={product.id}
